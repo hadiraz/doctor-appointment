@@ -63,7 +63,7 @@ const Layout = ({ children }: { children: ReactElement }) => {
           />
           
         </svg>
-          <ResponsiveNav className={`${!navStatus && "-right-full"}`} setMenuStatus={setNavStatus}/>  
+          <ResponsiveNav className={`${!navStatus && "!-right-full"}`} setMenuStatus={setNavStatus}/>  
         
       </header>
       <main className="w-full h-full">{children}</main>
