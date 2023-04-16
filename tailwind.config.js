@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         // Light mode colors
         primary: '#9DC183', // Sage green
+        lightPrimary : "#b3e6c4",
         secondary: '#C3D7B4', // Pale green
         accent: '#98FB98', // Mint green
         dark: '#708238', // Olive green
