@@ -7,8 +7,8 @@ import ResponsiveNav from "./ResponsiveNav";
 const Layout = ({ children }: { children: ReactElement }) => {
   const [navStatus, setNavStatus] = useState(false);
   return (
-    <div className={`flex w-full flex-col items-center font-lato bg-mainBg overflow-x-hidden`}>
-      <header className="w-full flex justify-between items-center sticky top-00 px-4 h-16 z-10 bg-transparent backdrop-blur-sm backdrop-filter">
+    <div className={`flex w-full flex-col items-center relative font-lato bg-mainBg`}>
+      <header className="w-full flex justify-between items-center sticky top-0 px-4 h-16 z-10 bg-transparent backdrop-blur-sm backdrop-filter">
         <div className="flex items-center justify-center">
           <Link href="/">
             <Image
@@ -63,9 +63,9 @@ const Layout = ({ children }: { children: ReactElement }) => {
           />
           
         </svg>
-          <ResponsiveNav className={`${!navStatus && "!-right-full"}`} setMenuStatus={setNavStatus}/>  
         
       </header>
+          <ResponsiveNav className={`${!navStatus && "!-right-full !w-[70vw]"}`} setMenuStatus={setNavStatus}/>  
       <main className="w-full h-full">{children}</main>
     </div>
   );
