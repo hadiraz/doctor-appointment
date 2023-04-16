@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: ReactElement }) => {
   const [navStatus, setNavStatus] = useState(false);
   return (
     <div className={`flex w-full flex-col items-center font-lato bg-mainBg overflow-x-hidden`}>
-      <header className="w-full flex justify-between items-center px-4 h-16 relative z-10 bg-transparent backdrop-blur-sm backdrop-filter">
+      <header className="w-full flex justify-between items-center sticky top-00 px-4 h-16 z-10 bg-transparent backdrop-blur-sm backdrop-filter">
         <div className="flex items-center justify-center">
           <Link href="/">
             <Image
