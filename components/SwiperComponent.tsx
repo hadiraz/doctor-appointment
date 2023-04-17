@@ -1,30 +1,25 @@
-import React, { useEffect, useRef } from "react";
-import { register } from "swiper/element/bundle";
+import React, { ReactElement, useEffect, useRef } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
-const SwiperComponent = ({}) => {
-    const swiperRef = useRef();
-    useEffect(()=>{
-      register();
-  },[])
-  
+const SwiperComponent = ({ items }: { items: ReactElement[] }) => {
+
   return (
-    <swiper-container
-      ref={swiperRef}
-      slides-per-view="1"
-      navigation="false"
-      pagination="true"
+    <Swiper
+    modules={[Navigation, Pagination, Scrollbar, A11y]}
+    spaceBetween={50}
+    slidesPerView={1}
+    pagination
+    className="!w-full !overflow-y-visible"
+    onSlideChange={() => console.log('slide change')}
+    onSwiper={(swiper) => console.log(swiper)}
     >
-        <swiper-slide>
-            <div className="w-full h-40 bg-yellow-400 flex !mr-2">slide 1</div>
-        </swiper-slide>
-        <swiper-slide>
-            <div className="w-40 h-40 bg-yellow-400 flex mx-2">slide 2</div>
-        </swiper-slide>
-        <swiper-slide>
-            <div className="w-40 h-40 bg-yellow-400 flex mx-2">slide 3</div>
-        </swiper-slide>
-        
-    </swiper-container>
+      {items.map((value, key) => (
+        <SwiperSlide className="!w-full" key={value.key}>{value}</SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 
