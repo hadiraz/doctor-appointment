@@ -18,7 +18,7 @@ module.exports = {
         text: '#222222', // Dark gray for text
         buttons: '#9DC183', // Sage green for buttons
         buttonShadows: 'rgba(157, 193, 131, 0.5)', // Shadow color for buttons
-        mainBg: '#F5F5F5', // Light gray for main background
+        mainBg: '#fdfdfd', // Light gray for main background
 
         // Dark mode colors
         darkPrimary: '#7D9A5F', // Dark sage green
