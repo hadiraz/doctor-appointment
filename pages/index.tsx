@@ -7,7 +7,10 @@ export default function Home() {
   return (
     <section className="flex w-full flex-col items-center min-h-screen max-w-7xl px-3">
       <MainPageBanner />
-      <section className="flex flex-col lg:flex-row items-center justify-between w-full mt-28 rounded-[20px] sm:px-3">
+      <section
+        
+        className="flex flex-col lg:flex-row items-center justify-between w-full mt-28 rounded-[20px] sm:px-3"
+      >
         <div className="flex flex-col h-full justify-center items-center lg:w-[380px] w-full flex-shrink-0">
           <div className="flex w-full h-full items-center justify-center">
             <span className="flex justify-center transition-all duration-200 items-center rounded-5xl bg-buttons p-4 rounded-[18px] shadow-xl shadow-buttonShadows mr-4 ">
@@ -33,7 +36,7 @@ export default function Home() {
               Nuclear Medicine
             </p>
           </div>
-          <button className="hidden lg:flex bg-buttons rounded-2xl p-3 text-white font-bold text-xl shadow-lg shadow-buttonShadows mt-10 items-center justify-between">
+          {/* <button className="hidden lg:flex bg-buttons rounded-2xl p-3 text-white font-bold text-xl shadow-lg shadow-buttonShadows mt-10 items-center justify-between">
             Book appointment
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +52,7 @@ export default function Home() {
                 d="M8.25 4.5l7.5 7.5-7.5 7.5"
               />
             </svg>
-          </button>
+          </button> */}
         </div>
         <TeamSwiperContainer />
       </section>
