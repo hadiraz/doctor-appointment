@@ -8,16 +8,15 @@ const SwiperComponent = ({ items }: { items: ReactElement[] }) => {
 
   return (
     <Swiper
-    modules={[Navigation, Pagination, Scrollbar, A11y]}
-    spaceBetween={50}
+    modules={[Navigation, Scrollbar, A11y]}
+    spaceBetween={0}
     slidesPerView={1}
-    pagination
-    className="!w-full !overflow-y-visible"
+    className="!w-full"
     onSlideChange={() => console.log('slide change')}
     onSwiper={(swiper) => console.log(swiper)}
     >
       {items.map((value, key) => (
-        <SwiperSlide className="!w-full" key={value.key}>{value}</SwiperSlide>
+        <SwiperSlide className="!w-full !flex !justify-center" key={value.key}>{value}</SwiperSlide>
       ))}
     </Swiper>
   );

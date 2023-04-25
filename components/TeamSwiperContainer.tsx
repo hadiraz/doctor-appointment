@@ -5,11 +5,12 @@ import TeamSwiperItems from "./TeamSwiperItems";
 const TeamSwiperContainer = () => {
   return (
     <div
-      className="flex items-center justify-center p-3 !w-full h-max mt-10"
+      className="flex items-center justify-center p-3 h-max rounded-3xl mt-8 lg:mt-0"
       style={{
-        background: "rgb(245,245,245)",
-        background:
-          "linear-gradient(90deg, rgba(245,245,245,1) 0%, rgba(244,244,244,1) 25%, rgba(233,233,233,1) 50%, rgba(244,244,244,1) 75%, rgba(245,245,245,1) 100%)",
+        backgroundImage:
+          "linear-gradient(270deg, rgb(236, 239, 241) 0%, #fdfdfd 100%)",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
       }}
     >
       <SwiperComponent
