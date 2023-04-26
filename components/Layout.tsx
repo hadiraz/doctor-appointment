@@ -3,6 +3,7 @@ import React, { ReactElement, useState } from "react";
 import logo from "@/public/assets/logo_med.png";
 import Link from "next/link";
 import ResponsiveNav from "./ResponsiveNav";
+import Footer from "./Footer";
 
 const Layout = ({ children }: { children: ReactElement }) => {
   const [navStatus, setNavStatus] = useState(false);
@@ -67,6 +68,7 @@ const Layout = ({ children }: { children: ReactElement }) => {
       </header>
           <ResponsiveNav className={`${!navStatus && "!-right-full !w-[70vw]"}`} setMenuStatus={setNavStatus}/>  
       <main className="w-full h-full flex flex-col items-center">{children}</main>
+      <Footer/>
     </div>
   );
 };
