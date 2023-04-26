@@ -3,6 +3,7 @@ import SwiperComponent from "@/components/SwiperComponent";
 import TeamSwiperContainer from "@/components/TeamSwiperContainer";
 import Image from "next/image";
 import Nuclear from "@/public/assets/images/neclear-image.jpg";
+import Services from "@/components/Services";
 export default function Home() {
   return (
     <section className="flex w-full flex-col items-center min-h-screen max-w-7xl px-3">
@@ -10,7 +11,7 @@ export default function Home() {
       <TeamSwiperContainer />
       <section
         style={{ background: "" }}
-        className="bg-accent flex max-w-5xl z-10 relative justify-between md:justify-start rounded-lg items-center my-10 w-full py-2 px-3"
+        className="bg-accent flex max-w-5xl z-[5] relative justify-between md:justify-start rounded-lg items-center my-10 w-full py-2 px-3"
       >
         {/* <span className="blur-lg w-full h-full absolute top-1 left-1 flex rounded-lg -z-10 bg-accent"></span> */}
         <span className="w-full h-full absolute top-0 left-0 flex rounded-lg z-[-1] bg-accent opacity-40"></span>
@@ -30,6 +31,7 @@ export default function Home() {
           </button>
         </div>
       </section>
+      <Services/>
     </section>
   );
 }
