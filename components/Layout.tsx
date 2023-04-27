@@ -8,7 +8,7 @@ import Footer from "./Footer";
 const Layout = ({ children }: { children: ReactElement }) => {
   const [navStatus, setNavStatus] = useState(false);
   return (
-    <div className={`flex w-full flex-col items-center relative font-lato bg-mainBg`}>
+    <div className={`flex w-full min-h-screen justify-between flex-col items-center relative font-lato bg-mainBg`}>
       <header className="w-full flex justify-between items-center sticky top-0 px-4 h-16 z-10 bg-transparent backdrop-blur-sm backdrop-filter">
         <div className="flex items-center justify-center">
           <Link href="/">
