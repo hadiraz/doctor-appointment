@@ -1,13 +1,15 @@
 import React from "react";
 import MedicalBanner from "@/public/assets/images/medical.png";
 import Image from "next/image";
+import Background from "@/public/assets/images/Group 607.png"
 const MainPageBanner = () => {
   return (
-    <section className="flex flex-col items-center justify-center w-full max-w-7xl h-[88vh] md:flex-row md:h-auto">
-      <div className="flex justify-center items-center">
+    <section className="flex flex-col items-center justify-center relative w-full max-w-7xl h-[88vh] md:flex-row md:h-auto">
+      <Image width={300} height={300} src={Background} alt="" className="absolute w-auto h-auto left-0 md:left-[-10%] bottom-0 opacity-80"/>
+      <div className="flex justify-center items-center relative z-[1]">
         <Image src={MedicalBanner} width={400} height={400} alt="banner" />
       </div>
-      <div className="flex flex-col items-center mt-3 md:mt-0 justify-center">
+      <div className="flex flex-col items-center mt-3 md:mt-0 justify-center relative z-[1]">
         <p className="text-xl font-extrabold md:items-start sm:text-3xl px-2 text-justify md:text-left">
             {/* <span className="relative flex w-3 h-3 rounded-full bg-lime-500 mr-3">
                 <span className="absolute top-0 left-0 w-full h-full animate-ping bg-lime-500 rounded-full"></span>
