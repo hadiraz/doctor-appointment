@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import Photo from "@/public/assets/images/nuclear-image.jpg";
+import Hospital from "@/public/assets/images/hospital-services.jpg";
+
 const BlogPost = () => {
   return (
     <section className="flex flex-col w-full min-h-full max-w-7xl px-3">
@@ -10,11 +12,11 @@ const BlogPost = () => {
         className="w-full rounded-lg object-cover object-center max-h-40"
       />
       <article>
-        <h3 className="text-text text-2xl font-bold mb-2 mt-6">
+        <h3 className="text-text text-justify text-xl md:text-2xl font-extrabold mb-2 mt-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
           nesciunt.
         </h3>
-        <div className="text-[#4d4d4d] text-justify mt-3">
+        <div className="sm:text-lg text-[#4d4d4d] text-justify mt-3">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus
           vel nobis odit quo impedit rerum! Ipsam quasi eveniet dolore
           voluptatibus. Nobis quae commodi perferendis veniam optio
@@ -42,16 +44,51 @@ const BlogPost = () => {
       </article>
       <div className="flex flex-col w-full mt-10">
         <p className="text-xl w-fit font-extrabold relative after:w-full after:h-[2px] after:bg-[#999999] after:absolute after:bottom-[-2px] after:left-0">Related posts</p>
-        <ul className="flex flex-col w-full mt-4">
-          <li className="flex w-full text-text group relative transition-all duration-200 hover:underline 
-          underline-offset-2 hover:font-bold mb-3">
-            {/* <span className="w-0 flex group-hover:w-full h-[2px] absolute bottom-0 left-0 bg-[#ccc]"></span> */}
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, recusandae?
+        <ul className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full mt-6">
+          <li className="flex w-full">
+            <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
+          <div className="w-full flex items-center justify-center">
+            <Image
+              src={Hospital}
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              alt="hospital"
+              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
+            />
+          </div>
+            <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </h3>
+        </div>
           </li>
-          <li className="flex w-full text-text group relative transition-all duration-200 hover:underline 
-          underline-offset-2 hover:font-bold mb-3">
-            {/* <span className="w-0 flex group-hover:w-full h-[2px] absolute bottom-0 left-0 bg-[#ccc]"></span> */}
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, recusandae?
+          <li className="flex w-full">
+            <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
+          <div className="w-full flex items-center justify-center">
+            <Image
+              src={Hospital}
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              alt="hospital"
+              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
+            />
+          </div>
+            <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </h3>
+        </div>
+          </li>
+          <li className="flex w-full">
+            <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
+          <div className="w-full flex items-center justify-center">
+            <Image
+              src={Hospital}
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              alt="hospital"
+              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
+            />
+          </div>
+            <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </h3>
+        </div>
           </li>
         </ul>
       </div>
