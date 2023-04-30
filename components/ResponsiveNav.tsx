@@ -3,7 +3,7 @@ import React from "react";
 const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Dispatch<React.SetStateAction<boolean>> , className?: string }) => {
   return (
     <section
-      className={`w-[50vw] h-[96vh] flex md:hidden flex-col fixed top-0 right-0 bg-white rounded-tl-3xl rounded-bl-3xl transition-all duration-200 ease-in z-20 ${className} shadow-slate-500 shadow-xl`}
+      className={`w-[60vw] h-screen flex md:hidden flex-col fixed top-0 right-0 bg-white transition-all duration-200 ease-in z-20 ${className}`}
     >
       <div className="flex w-full items-center py-4 px-3">
         <svg
@@ -47,6 +47,7 @@ const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Di
           </li>
         </ul>
       </nav>
+      
     </section>
   );
 };
