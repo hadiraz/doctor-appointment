@@ -1,8 +1,7 @@
 import MainPageBanner from "@/components/MainPageBanner";
-import SwiperComponent from "@/components/SwiperComponent";
 import TeamSwiperContainer from "@/components/TeamSwiperContainer";
 import Image from "next/image";
-import Nuclear from "@/public/assets/images/neclear-image.jpg";
+import Nuclear from "@/public/assets/images/nuclear-image.jpg";
 import Services from "@/components/Services";
 export default function Home() {
   return (
