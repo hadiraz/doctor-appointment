@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: ReactElement }) => {
         
       </header>
           <ResponsiveNav className={`${!navStatus && "!-right-full !w-[70vw]"}`} setMenuStatus={setNavStatus}/>  
-      <main className="w-full h-full flex flex-col items-center">{children}</main>
+      <main className="w-full h-full flex flex-col items-center my-10">{children}</main>
       <Footer/>
     </div>
   );
