@@ -13,7 +13,7 @@ const Index = () => {
             <path d="M8 6h9v2H8z" />
           </svg>
         </TitleIconContainer>
-        <p className="flex ml-4 text-2xl font-bold">Blog</p>
+        <p className="flex text-2xl font-bold">Blog</p>
       </div>
       <section className="grid place-items-center gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full px-4">
         <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
