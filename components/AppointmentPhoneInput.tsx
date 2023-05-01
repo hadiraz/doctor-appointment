@@ -6,11 +6,11 @@ const Input = styled.input`
 `;
 const AppointmentPhoneInput = () => {
   return (
-    <form className="flex w-full flex-col justify-center mt-14 max-w-xs">
+    <form className="flex w-full flex-col justify-center items-center rounded-2xl  p-4 text-text shadow-lg">
       <p className="text-text mb-3">Please enter your phone number</p>
       <input
         type="tel"
-        className="w-full px-2 py-1 rounded-xl border !border-gray-500 outline-gray-800 focus:outline focus:outline-emerald-300 focus:border-none"
+        className="max-w-[250px] w-full px-2 py-1 border-b-[1px] outline-none border-gray-400 focus:border-b-emerald-300 focus:border-b-[2px]"
         placeholder="09123456789"
       />
       <div className="flex w-full justify-end items-center">
