@@ -1,16 +1,18 @@
-import React from "react";
+import { SectionConfigType } from "@/pages/appointment";
+import React, { FormEventHandler } from "react";
 import styled from "styled-components";
-const Input = styled.input`
-  width: 250px;
-  border: #888888;
-`;
-const AppointmentPhoneInput = () => {
+
+const AppointmentPhoneInput = ({sectionSelected , setSectionSelected} : SectionConfigType) => {
+  const handleSubmit : FormEventHandler = (e) => {
+    e.preventDefault();
+    setSectionSelected(1)
+  }
   return (
-    <form className="flex w-full flex-col justify-center items-center rounded-2xl  p-4 text-text shadow-lg">
-      <p className="text-text mb-3">Please enter your phone number</p>
+    <form onSubmit={handleSubmit} className={`flex absolute w-full flex-col justify-center items-center rounded-2xl  p-4 text-text shadow-lg`}>
+      <p className="text-text mb-5 font-bold">Please enter your phone number</p>
       <input
         type="tel"
-        className="max-w-[250px] w-full px-2 py-1 border-b-[1px] outline-none border-gray-400 focus:border-b-emerald-300 focus:border-b-[2px]"
+        className="max-w-[250px] w-full px-2 py-1 border-b-[1px] outline-none border-gray-400 focus:border-b-emerald-300 focus:border-b-[2px] bg-transparent"
         placeholder="09123456789"
       />
       <div className="flex w-full justify-end items-center">

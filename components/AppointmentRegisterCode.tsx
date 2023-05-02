@@ -1,17 +1,21 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEventHandler, KeyboardEvent, useEffect, useState } from "react";
 import SplitedInputs from "./SplitedInputs";
+import { SectionConfigType } from "@/pages/appointment";
 
-const AppointmentRegisterCode = () => {
+const AppointmentRegisterCode = ({sectionSelected , setSectionSelected} : SectionConfigType) => {
   const [stringCode, setStringCode] = useState<string>("");
  
-  
+  const handleSubmit : FormEventHandler = (e) => {
+    e.preventDefault();
+    setSectionSelected(2)
+  }
 
   return (
-    <div className="flex w-full flex-col items-center rounded-2xl  py-5 text-text shadow-lg">
+    <div className={`flex absolute w-full flex-col items-center rounded-2xl  py-5 text-text shadow-lg transition-all duration-200`}>
       <p className="w-full text-center text-text font-bold mb-5">
         Enter the code that sent to your number
       </p>
-      <form className="flex flex-col justify-center items-center w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full">
         <div className="flex w-full justify-center items-center">
             <SplitedInputs inputsNumber={5} stringCode={stringCode} setStringCode={setStringCode} />
         </div>
