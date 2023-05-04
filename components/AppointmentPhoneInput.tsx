@@ -1,4 +1,5 @@
 import { SectionConfigType } from "@/pages/appointment";
+import { glassStyle } from "@/public/styles/style";
 import React, { FormEventHandler } from "react";
 import styled from "styled-components";
 
@@ -8,11 +9,14 @@ const AppointmentPhoneInput = ({sectionSelected , setSectionSelected} : SectionC
     setSectionSelected(1)
   }
   return (
-    <form onSubmit={handleSubmit} className={`flex absolute w-full flex-col justify-center items-center rounded-2xl  p-4 text-text shadow-lg`}>
+    <form  style={{...glassStyle}} onSubmit={handleSubmit} className={`flex w-fit md:w-3/4 flex-col justify-center items-center rounded-2xl  p-8 text-text bg-transparent h-fit`}>
       <p className="text-text mb-5 font-bold">Please enter your phone number</p>
       <input
+       style={{boxShadow : "0px 0px 12px -2px #ccc" , background : "#ffffff5b"}} 
         type="tel"
-        className="max-w-[250px] w-full px-2 py-1 border-b-[1px] outline-none border-gray-400 focus:border-b-emerald-300 focus:border-b-[2px] bg-transparent"
+        maxLength={12}
+        minLength={12}
+        className="max-w-[250px] w-full px-2 py-1 border-none outline-none border-gray-400 bg-transparent rounded-xl"
         placeholder="09123456789"
       />
       <div className="flex w-full justify-end items-center">
