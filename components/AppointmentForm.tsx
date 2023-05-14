@@ -51,7 +51,7 @@ const AppointmentForm = ({
           </div>
         </div>
       </div>
-        <div className="flex justify-center w-full flex-wrap mt-5">
+        <div className="flex w-fit flex-wrap mt-5">
           <div style={{...glassStyle}} className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl border-white border-[2px] mx-1 my-1 font-bold text-white !bg-primary">
             16-18
           </div>

@@ -16,7 +16,7 @@ const AppointmentPhoneInput = ({sectionSelected , setSectionSelected} : SectionC
         type="tel"
         maxLength={12}
         minLength={12}
-        className="max-w-[250px] w-full px-2 py-1 border-none outline-none border-gray-400 bg-transparent rounded-xl"
+        className="max-w-[250px] w-full px-2 py-2 border-none outline-none border-gray-400 bg-transparent rounded-xl"
         placeholder="09123456789"
       />
       <div className="flex w-full justify-end items-center">
