@@ -1,0 +1,9 @@
+{
+    "time" : {
+        "startTime" : 14 ,
+        "endTime" : 21 ,
+        "step" : 30 ,
+        "offDays" : [7] ,
+        "reservedTimes" : []
+    }
+}
