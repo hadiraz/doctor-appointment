@@ -3,78 +3,102 @@ import { glassStyle } from "@/public/styles/style";
 import React, { useEffect, useState } from "react";
 import { start } from "repl";
 import { v4 as uuidv4 } from "uuid";
+
 type AppointmentDataType = {
-  time: {
-    startTime: number;
-    endTime: number;
-    step: number;
-    offDays: number[];
-    reservedTimes: number[];
-  };
+  startTime: number;
+  endTime: number;
+  step: number;
+  offDays: number[];
+  reservedTimes: number[];
 };
 type DateObjectType = {
   day: number;
   time: number;
   date: string;
 };
+
 const AppointmentForm = ({
   sectionSelected,
   setSectionSelected,
 }: SectionConfigType) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<number>();
-  const [data, setData] = useState<AppointmentDataType>();
+  const [daysList, setDaysList] = useState<DateObjectType[]>([]);
+  const [timeList, setTimeList] = useState<number[]>([]);
+  const [data, setData] = useState<AppointmentDataType>({
+    startTime: 0,
+    endTime: 0,
+    step: 0,
+    offDays: [],
+    reservedTimes: [],
+  });
   const [currentTime, setCurrentTime] = useState<number>(0);
   useEffect(() => {
     (async () => {
-      const data = await fetch("http://localhost:3004/time")
+      const getData = await fetch("http://localhost:3004/time")
         .then((res) => res)
         .then((res) => res.json());
-      setData(data);
+      setData(getData);
+      /** generate the start day time "00:00" in millisecond */
       const date = new Date();
       const time = date.getTime();
       const hourToMilSec = date.getHours() * 60 * 60 * 1000;
-      const minToMilSec = date.getHours() * 60 * 1000;
-      const secToMilSec = date.getHours() * 1000;
-      setCurrentTime(time - (hourToMilSec + minToMilSec + secToMilSec));
+      const minToMilSec = date.getMinutes() * 60 * 1000;
+      const secToMilSec = date.getSeconds() * 1000;
+      const result = time - (hourToMilSec + minToMilSec + secToMilSec);
+      setCurrentTime(result);
+
+      console.log("hiiio");
     })();
   }, []);
   useEffect(() => {
-    console.log(data);
-  }, [data]);
-  const daysCounter = () => {
-    let days: DateObjectType[] = [];
-    let i = 1;
-    for (i; i <= 7; i++) {
-      const dayString = currentTime + i * 24 * 60 * 60 * 1000;
-      const dateObj = new Date(dayString);
-      days[i] = {
-        day: dateObj.getDay(),
-        time: dateObj.getTime(),
-        date: `${dateObj.getFullYear()}-${
-          dateObj.getMonth() + 1
-        }-${dateObj.getDate()}`,
+    console.log(data, 88);
+    if (data.step && currentTime) {
+      const daysCounter = () => {
+        let days: DateObjectType[] = [];
+        let i = 1;
+        for (i; i <= 7; i++) {
+          const dayString = currentTime + i * 24 * 60 * 60 * 1000;
+          const dateObj = new Date(dayString);
+          days[i] = {
+            day: dateObj.getDay(),
+            time: dateObj.getTime(),
+            date: `${dateObj.getFullYear()}-${
+              dateObj.getMonth() + 1
+            }-${dateObj.getDate()}`,
+          };
+        }
+        setDaysList(days);
       };
+      const timeCounter = () => {
+        const startTime = currentTime + data.startTime * 60 * 60 * 1000;
+        const endTime = currentTime + data.endTime * 60 * 60 * 1000;
+        console.log((endTime - startTime) / (60 * 60 * 1000), 555);
+        console.log(new Date(currentTime).getMinutes(), 111);
+        let round = 0;
+        let newTime = 0;
+        let list: number[] = [];
+        while (endTime > newTime) {
+          console.log("hi", round);
+          newTime = startTime + round * data.step * 60 * 1000;
+          list.push(newTime);
+          round += 1;
+        }
+        setTimeList(list);
+      };
+      daysCounter();
+      timeCounter();
     }
-    return days;
-  };
-  const timeCounter = () => {
-    if (data) {
-      const totalTime = data.time.endTime - data.time.startTime;
-      let counter = 0;
-      const timeList = [];
-      while (counter < totalTime) {
-        const hour = counter / 60 ;
-        const minute = counter % 60 ;
-        const newTime = minute ? `${start}`
-        counter + data.time.step / 60;
-      }
-    }
-  };
+  }, [data, currentTime]);
+  useEffect(() => {
+    console.log(timeList, 999);
+  }, [timeList]);
   const handleDaySelect = (timeObj: DateObjectType) => {
     setSelectedDate(timeObj.time);
   };
-  const handleTimeSelect = (timeObj: DateObjectType) => {};
+  const handleTimeSelect = (time: number) => {
+    setSelectedDate(time);
+  };
   return (
     <form
       className={`flex px-3 w-full flex-col items-center rounded-2xl py-5 text-text transition-all duration-200 `}
@@ -85,7 +109,7 @@ const AppointmentForm = ({
       >
         {/* <span className="flex absolute w-8 backdrop-blur-sm h-full right-[-8px] top-0 z-[1]"></span> */}
         <div className="flex w-full h-full items-center overflow-x-auto overflow-y-hidden no-scrollbar py-1 px-5">
-          {daysCounter().map((value, key) => {
+          {daysList.map((value, key) => {
             return (
               <div
                 onClick={() => {
@@ -122,57 +146,31 @@ const AppointmentForm = ({
         </div>
       </div>
       <div className="flex w-fit flex-wrap mt-5">
-        <div
-          style={{ ...glassStyle }}
-          className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl border-white border-[2px] mx-1 my-1 font-bold text-white !bg-primary"
-        >
-          16-18
-        </div>
-        <div
-          style={{
-            boxShadow: "0px 0px 12px -2px #ccc",
-            background: "#ffffff5b",
-          }}
-          className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl bg-transparent backdrop-blur-md mx-1 my-1"
-        >
-          16-18
-        </div>
-        <div
-          style={{
-            boxShadow: "0px 0px 12px -2px #ccc",
-            background: "#ffffff5b",
-          }}
-          className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl bg-transparent backdrop-blur-md mx-1 my-1"
-        >
-          16-18
-        </div>
-        <div
-          style={{
-            boxShadow: "0px 0px 12px -2px #ccc",
-            background: "#ffffff5b",
-          }}
-          className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl bg-transparent backdrop-blur-md mx-1 my-1"
-        >
-          16-18
-        </div>
-        <div
-          style={{
-            boxShadow: "0px 0px 12px -2px #ccc",
-            background: "#ffffff5b",
-          }}
-          className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl bg-transparent backdrop-blur-md mx-1 my-1"
-        >
-          16-18
-        </div>
-        <div
-          style={{
-            boxShadow: "0px 0px 12px -2px #ccc",
-            background: "#ffffff5b",
-          }}
-          className="w-[100px] h-[45px] flex items-center justify-center rounded-2xl bg-transparent backdrop-blur-md mx-1 my-1"
-        >
-          16-18
-        </div>
+        {timeList.map((value, key) => {
+          const startDate = new Date(value);
+          // console.log(new Date(value).getHours() , 999665)
+          const endDate = new Date(value + data.step * 60 * 1000);
+          if (startDate.getHours() < data.endTime) {
+            return (
+              <div
+                key={uuidv4()}
+                onClick={() => handleTimeSelect(value)}
+                style={{ ...glassStyle }}
+                className={`w-[100px] h-[45px] flex items-center justify-center rounded-2xl ${
+                  selectedDate === value
+                    ? "border-white border-[2px] !bg-primary text-white font-bold"
+                    : "text-text"
+                } mx-1 my-1 cursor-pointer transition-all duration-200`}
+              >
+                {`${startDate.getHours()}${
+                  startDate.getMinutes() ? ":" + startDate.getMinutes() : ""
+                } - ${endDate.getHours()}${
+                  endDate.getMinutes() ? ":" + endDate.getMinutes() : ""
+                }`}
+              </div>
+            );
+          }
+        })}
       </div>
       <div className="flex w-full justify-end items-center mt-6">
         <button className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
