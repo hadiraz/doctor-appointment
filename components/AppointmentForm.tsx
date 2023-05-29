@@ -1,6 +1,7 @@
 import { SectionConfigType } from "@/pages/appointment";
 import { glassStyle } from "@/public/styles/style";
 import React, { useEffect, useState } from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 import { start } from "repl";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,13 +17,19 @@ type DateObjectType = {
   time: number;
   date: string;
 };
-
+type SelectedTimeType = {
+  date: number;
+  time: number;
+};
 const AppointmentForm = ({
   sectionSelected,
   setSectionSelected,
 }: SectionConfigType) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<number>();
+  const [selectedDate, setSelectedDate] = useState<SelectedTimeType>({
+    date: 0,
+    time: 0,
+  });
   const [daysList, setDaysList] = useState<DateObjectType[]>([]);
   const [timeList, setTimeList] = useState<number[]>([]);
   const [data, setData] = useState<AppointmentDataType>({
@@ -91,13 +98,13 @@ const AppointmentForm = ({
     }
   }, [data, currentTime]);
   useEffect(() => {
-    console.log(timeList, 999);
-  }, [timeList]);
+    console.log(selectedDate, 555);
+  }, [selectedDate]);
   const handleDaySelect = (timeObj: DateObjectType) => {
-    setSelectedDate(timeObj.time);
+    setSelectedDate({ date: timeObj.time, time: 0 });
   };
   const handleTimeSelect = (time: number) => {
-    setSelectedDate(time);
+    setSelectedDate((prev) => ({ date: prev.date, time }));
   };
   return (
     <form
@@ -108,47 +115,48 @@ const AppointmentForm = ({
         className="flex w-fit max-w-full rounded-3xl relative z-[2] backdrop-blur-md overflow-hidden pl-3"
       >
         {/* <span className="flex absolute w-8 backdrop-blur-sm h-full right-[-8px] top-0 z-[1]"></span> */}
-        <div className="flex w-full h-full items-center overflow-x-auto overflow-y-hidden no-scrollbar py-1 px-5">
-          {daysList.map((value, key) => {
-            return (
-              <div
-                onClick={() => {
-                  handleDaySelect(value);
-                }}
-                key={uuidv4()}
-                className={`flex flex-col justify-center items-center px-4 py-2 ${
-                  selectedDate === value.time
-                    ? "bg-primary border-white border-[2px] text-white"
-                    : "text-text"
-                } rounded-lg cursor-pointer transition-all duration-200`}
-              >
-                <p
-                  className={`${
-                    selectedDate === value.time
-                      ? "font-extrabold text-sm"
-                      : "font-semibold text-center  text-xs"
-                  } capitalize mb-1`}
+        <div className="flex min-w-[500px] w-full h-full items-center overflow-x-auto overflow-y-hidden no-scrollbar py-1 px-5">
+      <Scrollbars autoHeight autoHeightMax={90} autoHeightMin={65} className=" !flex-row" style={{ width: "100%" , display:"flex" , flexDirection:"row" }}>
+            {daysList.map((value, key) => {
+              return (
+                <div
+                  onClick={() => {
+                    handleDaySelect(value);
+                  }}
+                  key={uuidv4()}
+                  className={`flex flex-col min-w-40 h-16 justify-center items-center px-4 py-2 ${
+                    selectedDate.date === value.time
+                      ? "bg-primary border-white border-[2px] text-white"
+                      : "text-text"
+                  } rounded-lg cursor-pointer transition-all duration-200`}
                 >
-                  sunday
-                </p>
-                <p
-                  className={`${
-                    selectedDate === value.time
-                      ? "font-medium "
-                      : "text-[#acacac]"
-                  } text-xs text-center `}
-                >
-                  {value.date}
-                </p>
-              </div>
-            );
-          })}
+                  <p
+                    className={`${
+                      selectedDate.date === value.time
+                        ? "font-extrabold text-sm"
+                        : "font-semibold text-center  text-xs"
+                    } capitalize mb-1`}
+                  >
+                    sunday
+                  </p>
+                  <p
+                    className={`${
+                      selectedDate.date === value.time
+                        ? "font-medium "
+                        : "text-[#acacac]"
+                    } text-xs text-center `}
+                  >
+                    {value.date}
+                  </p>
+                </div>
+              );
+            })}
+          </Scrollbars>
         </div>
       </div>
       <div className="flex w-fit flex-wrap mt-5">
         {timeList.map((value, key) => {
           const startDate = new Date(value);
-          // console.log(new Date(value).getHours() , 999665)
           const endDate = new Date(value + data.step * 60 * 1000);
           if (startDate.getHours() < data.endTime) {
             return (
@@ -157,7 +165,7 @@ const AppointmentForm = ({
                 onClick={() => handleTimeSelect(value)}
                 style={{ ...glassStyle }}
                 className={`w-[100px] h-[45px] flex items-center justify-center rounded-2xl ${
-                  selectedDate === value
+                  selectedDate.time === value
                     ? "border-white border-[2px] !bg-primary text-white font-bold"
                     : "text-text"
                 } mx-1 my-1 cursor-pointer transition-all duration-200`}
