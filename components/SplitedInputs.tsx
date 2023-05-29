@@ -27,22 +27,23 @@ const SplitedInputs = ({
 useEffect(() => {
     FirstInputRef.current?.focus();
   }, [items]);
+
   const setCodeDigit = (inputValue: string, id: number) => {
     setStringCode((prev) => {
       const newArrayCode = prev.split("").map((value, key) => {
         if (key === id) {
-          return inputValue;
         } else return value;
+        return inputValue;
       });
       return newArrayCode.join("");
     });
   };
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>, id: number) => {
-    console.log("hi");
     const enteredCharacter: string = e.target.value.split("")[0];
     const nextSibling = e.target.nextElementSibling as HTMLInputElement | null;
     const checkDigit = /\d/.test(enteredCharacter);
+    console.log(enteredCharacter)
     if (checkDigit) {
       stringCode.length === inputsNumber
         ? setCodeDigit(enteredCharacter, id)
@@ -57,13 +58,14 @@ useEffect(() => {
   ) => {
     const target = e.target as HTMLInputElement | null;
     const nextElement = target?.nextElementSibling as HTMLInputElement | null;
-    if (e.key !== "Backspace" && target?.value && !nextElement?.value) {
+    if (e.key !== "Backspace" && String(target?.value) && String(!nextElement?.value)) {
       nextElement?.focus();
     }
     if (target && e.key === "Backspace") {
+      console.log(stringCode)
       const prevSibling =
         target.previousElementSibling as HTMLInputElement | null;
-      setCodeDigit(" ", id);
+      setCodeDigit("", id);
       prevSibling && prevSibling.focus();
       return;
     }
@@ -75,15 +77,13 @@ useEffect(() => {
         if (key === 0) {
           return (
             <input
-              
               ref={FirstInputRef}
               onChange={(e) => inputChangeHandler(e, key)}
               onKeyDown={(e) => inputKeyDownHandler(e, key)}
-              value={Number(splitedStringCode) ? splitedStringCode : ""}
+              value={Number(splitedStringCode) || Number(splitedStringCode) === 0 ? splitedStringCode : ""}
               key={key}
               inputMode="numeric"
               type="text"
-              maxLength={1}
               autoComplete="one-time-code"
               pattern="\d{1}"
               className="border-b-text text-lg bg-transparent w-6 text-center appearance-none mx-1 flex items-center justify-center border-b-[1px] outline-none border-gray-400 focus:border-b-emerald-300 focus:border-b-[2px]"
@@ -95,7 +95,7 @@ useEffect(() => {
             <input
               onChange={(e) => inputChangeHandler(e, key)}
               onKeyDown={(e) => inputKeyDownHandler(e, key)}
-              value={Number(splitedStringCode) ? splitedStringCode : ""}
+              value={Number(splitedStringCode) || Number(splitedStringCode) === 0  ? splitedStringCode : ""}
               key={key}
               inputMode="numeric"
               type="text"
