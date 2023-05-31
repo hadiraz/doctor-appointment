@@ -11,31 +11,64 @@ const Appointment = () => {
   const [sectionSelected, setSectionSelected] = useState<number>(0);
   return (
     <section className="flex flex-col items-center w-full sm:max-w-2xl min-h-screen bg-transparent rounded-xl px-2 relative z-[2]">
-      <div className="flex w-full items-center">
+      <div className="hidden sm:flex w-full items-center">
         <div className="flex flex-col items-center justify-center relative">
-          <span className="flex items-center justify-center bg-primary rounded-full py-2 px-4 text-white">
+          <span className={`flex relative items-center justify-center border-[3px] border-primary mx-2 ${sectionSelected >= 0 ? "text-white" : "text-text"} rounded-full w-12 h-12 overflow-hidden`}>
+            <span className={`absolute ${sectionSelected >= 0 ? "left-[-2px]" : "-left-12"} transition-all duration-200 w-12 h-12 rounded-full top-[-2px] left-[-2px] bg-primary z-[1]`}></span>
+            <span className="flex absolute z-[2]">
             1
+            </span>
           </span>
           <span className="flex font-bold text-sm capitalize mt-3">
-            register
+            phone
           </span>
         </div>
-        <span className="flex h-[3px] w-full bg-gray-400 relative -top-4"></span>
+        <span className="flex h-[3px] w-full bg-gray-300 relative -top-4">
+          <span className={`${sectionSelected > 0 ? "w-full" : "w-0"} h-full bg-primary flex transition-all duration-200`}>
+
+          </span>
+        </span>
         <div className="flex flex-col items-center justify-center relative">
-          <span className="flex items-center justify-center bg-primary rounded-full py-2 px-4 text-white">
+          <span className={`flex relative items-center justify-center border-[3px] border-primary mx-2 ${sectionSelected >= 1 ? "text-white" : "text-text"} rounded-full w-12 h-12 overflow-hidden`}>
+            <span className={`absolute ${sectionSelected >= 1 ? "left-[-2px]" : "-left-12"} transition-all duration-200 w-12 h-12 rounded-full top-[-2px] left-[-2px] bg-primary z-[1]`}></span>
+            <span className="flex absolute z-[2]">
             2
+            </span>
           </span>
           <span className="flex font-bold text-sm capitalize mt-3">
-            register
+            authenticate
           </span>
         </div>
-        <span className="flex h-[3px] w-full bg-gray-400 relative -top-4"></span>
+        <span className="flex h-[3px] w-full bg-gray-300 relative -top-4">
+          <span className={`${sectionSelected > 1 ? "w-full" : "w-0"} h-full bg-primary flex transition-all duration-200`}>
+
+          </span>
+        </span>
         <div className="flex flex-col items-center justify-center relative">
-          <span className="flex items-center justify-center bg-primary rounded-full py-2 px-4 text-white">
-            1
+          <span className={`flex relative items-center justify-center border-[3px] border-primary mx-2 ${sectionSelected >= 2 ? "text-white" : "text-text"} rounded-full w-12 h-12 overflow-hidden`}>
+            <span className={`absolute ${sectionSelected >= 2 ? "left-[-2px]" : "-left-12"} transition-all duration-200 w-12 h-12 rounded-full top-[-2px] left-[-2px] bg-primary z-[1]`}></span>
+            <span className="flex absolute z-[2]">
+            3
+            </span>
           </span>
           <span className="flex font-bold text-sm capitalize mt-3">
-            register
+            Register
+          </span>
+        </div>
+        <span className="flex h-[3px] w-full bg-gray-300 relative -top-4">
+          <span className={`${sectionSelected > 2 ? "w-full" : "w-0"} h-full bg-primary flex transition-all duration-200`}>
+
+          </span>
+        </span>
+        <div className="flex flex-col items-center justify-center relative">
+          <span className={`flex relative items-center justify-center border-[3px] border-primary mx-2 ${sectionSelected >= 3 ? "text-white" : "text-text"} rounded-full w-12 h-12 overflow-hidden`}>
+            <span className={`absolute ${sectionSelected >= 3 ? "left-[-2px]" : "-left-12"} transition-all duration-200 w-12 h-12 rounded-full top-[-2px] left-[-2px] bg-primary z-[1]`}></span>
+            <span className="flex absolute z-[2]">
+            4
+            </span>
+          </span>
+          <span className="flex font-bold text-sm capitalize mt-3">
+            reserve
           </span>
         </div>
       </div>
