@@ -112,11 +112,11 @@ const AppointmentForm = ({
     >
       <div
         style={{ ...glassStyle }}
-        className="flex w-fit max-w-full rounded-3xl relative z-[2] backdrop-blur-md overflow-hidden pl-3"
+        className="flex w-fit max-w-full rounded-3xl relative z-[2] backdrop-blur-md py-1 overflow-hidden"
       >
         {/* <span className="flex absolute w-8 backdrop-blur-sm h-full right-[-8px] top-0 z-[1]"></span> */}
-        <div className="flex min-w-[500px] w-full h-full items-center overflow-x-auto overflow-y-hidden no-scrollbar py-1 px-5">
-      <Scrollbars autoHeight autoHeightMax={90} autoHeightMin={65} className=" !flex-row" style={{ width: "100%" , display:"flex" , flexDirection:"row" }}>
+      <Scrollbars autoHeight  autoHeightMax={90} autoHeightMin={65} className="flex !w-full !flex-row" style={{ width: "300px" , display:"flex" , flexDirection:"row" }}>
+        <div className="flex !flex-row min-w-[500px] w-full h-full items-center py-1 mx-2">
             {daysList.map((value, key) => {
               return (
                 <div
@@ -151,10 +151,10 @@ const AppointmentForm = ({
                 </div>
               );
             })}
-          </Scrollbars>
         </div>
+          </Scrollbars>
       </div>
-      <div className="flex w-fit flex-wrap mt-5">
+      <div className="grid grid-cols-1 2xs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2 w-fit flex-wrap mt-5">
         {timeList.map((value, key) => {
           const startDate = new Date(value);
           const endDate = new Date(value + data.step * 60 * 1000);
@@ -168,7 +168,7 @@ const AppointmentForm = ({
                   selectedDate.time === value
                     ? "border-white border-[2px] !bg-primary text-white font-bold"
                     : "text-text"
-                } mx-1 my-1 cursor-pointer transition-all duration-200`}
+                } cursor-pointer transition-all duration-200 text-sm`}
               >
                 {`${startDate.getHours()}${
                   startDate.getMinutes() ? ":" + startDate.getMinutes() : ""
