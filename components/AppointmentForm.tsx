@@ -180,7 +180,10 @@ const AppointmentForm = ({
           }
         })}
       </div>
-      <div className="flex w-full justify-end items-center mt-6">
+      <div className="flex w-full justify-between items-center mt-6">
+        <button onClick={()=>setSectionSelected(prev => prev - 1)} className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
+          back
+        </button>
         <button className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
           Next
         </button>
