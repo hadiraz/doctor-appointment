@@ -19,7 +19,6 @@ const SplitedInputs = ({
   const [items, setItems] = useState<{id : number , value :string}[]>([]);
   const [pasteStatus, setPasteStatus] = useState<boolean>(false);
   const FirstInputRef = useRef<HTMLInputElement>(null);
-  const InputContainersRef = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     let newArr: {id : number , value :string}[] = [];
     for (let i = 0; i < inputsNumber; i++) {
@@ -58,7 +57,6 @@ const SplitedInputs = ({
       }
       if (!checkDigit) {
         enteredCharacter = ""
-        console.log(digit , 55)
       }
       digit && setCodeDigit(enteredCharacter, id);
       if(checkDigit) nextSiblingElement?.focus();
@@ -74,7 +72,6 @@ const SplitedInputs = ({
       nextElement?.focus();
     }
     if (target && e.key === "Backspace") {
-      console.log("hiii")
       const prevSibling = target.previousElementSibling as HTMLInputElement | null;
       setCodeDigit("", id);
       if(!target.value && id > 0) setCodeDigit("" , id-1)
@@ -96,7 +93,6 @@ const SplitedInputs = ({
   };
   return (
     <>
-    {/* // <span ref={InputContainersRef} className="flex items-center"> */}
       {items.map(({value , id}, key) => {
         if (key === 0) {
           return (
@@ -128,7 +124,6 @@ const SplitedInputs = ({
           );
         }
       })}
-    {/* // </span> */}
     </>
   );
 };
