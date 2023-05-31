@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Dispatch<React.SetStateAction<boolean>> , className?: string }) => {
@@ -41,9 +42,9 @@ const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Di
                 d="m5.396 28.424.303-.316A40.606 40.606 0 0 0 17 0v83.059A41.565 41.565 0 0 0 5.407 54.26c-6.933-7.215-6.938-18.614-.011-25.835Z"
               />
             </svg>
-            <span className="flex items-center capitalize text-primary font-semibold">
+            <Link href="/" className="flex items-center capitalize text-primary font-semibold">
               home
-            </span>
+            </Link>
           </li>
         </ul>
       </nav>

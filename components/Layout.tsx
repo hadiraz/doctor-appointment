@@ -24,10 +24,19 @@ const Layout = ({ children }: { children: ReactElement }) => {
         <nav className="flex justify-between items-center h-full">
           <ul className="hidden md:flex w-full items-center h-full font-semibold text-xl text-text">
             <li className="flex items-center justify-center transition-all duration-100 after:transition-all after:duration-300 hover:pb-1 mx-3 relative after:w-0 after:rounded-sm after:absolute after:h-[2px] after:bottom-0 hover:after:w-full after:bg-primary cursor-pointer">
+            <Link href="/">
               Home
+            </Link>
             </li>
             <li className="flex items-center justify-center transition-all duration-100 after:transition-all after:duration-300 hover:pb-1 mx-3 relative after:w-0 after:rounded-sm after:absolute after:h-[2px] after:bottom-0 hover:after:w-full after:bg-primary cursor-pointer">
+            <Link href="/appointment">
+              Appointment
+            </Link>
+            </li>
+            <li className="flex items-center justify-center transition-all duration-100 after:transition-all after:duration-300 hover:pb-1 mx-3 relative after:w-0 after:rounded-sm after:absolute after:h-[2px] after:bottom-0 hover:after:w-full after:bg-primary cursor-pointer">
+              <Link href="/about">
               About
+              </Link>
             </li>
           </ul>
         </nav>
