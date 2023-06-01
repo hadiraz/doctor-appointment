@@ -10,15 +10,19 @@ type InputsConfig = {
   inputsNumber: number;
   stringCode: string;
   setStringCode: React.Dispatch<React.SetStateAction<string>>;
+  setSubmitStatus: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SplitedInputs = ({
   inputsNumber,
   stringCode,
   setStringCode,
+  setSubmitStatus
 }: InputsConfig) => {
   const [items, setItems] = useState<{id : number , value :string}[]>([]);
   const [pasteStatus, setPasteStatus] = useState<boolean>(false);
+  const [filledInputs, setFilledInputs] = useState<number>(0);
   const FirstInputRef = useRef<HTMLInputElement>(null);
+  
   useEffect(() => {
     let newArr: {id : number , value :string}[] = [];
     for (let i = 0; i < inputsNumber; i++) {
@@ -26,9 +30,19 @@ const SplitedInputs = ({
     }
     setItems(newArr);
   }, [inputsNumber]);
+
   useEffect(() => {
     setStringCode(items.join(""))
+    items.map((value , key)=>{
+      if(value.value !== "" && value.value !== " "){
+        setFilledInputs(prev => prev + 1)
+      }else  setFilledInputs(0) 
+    })
   }, [items]);
+
+  useEffect(()=>{
+    filledInputs === items.length ? setSubmitStatus(false) : setSubmitStatus(true)
+  },[filledInputs])
 
   useEffect(() => {
     items.length > 0 && FirstInputRef.current?.focus();
