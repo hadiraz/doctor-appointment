@@ -38,10 +38,11 @@ const SplitedInputs = ({
         setFilledInputs(prev => prev + 1)
       }else  setFilledInputs(0) 
     })
+    console.log(items , filledInputs)
   }, [items]);
 
   useEffect(()=>{
-    filledInputs === items.length ? setSubmitStatus(false) : setSubmitStatus(true)
+    items.length !== 0 && filledInputs === items.length ? setSubmitStatus(false) : setSubmitStatus(true)
   },[filledInputs])
 
   useEffect(() => {
