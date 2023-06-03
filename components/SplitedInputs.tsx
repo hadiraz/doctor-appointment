@@ -32,7 +32,10 @@ const SplitedInputs = ({
   }, [inputsNumber]);
 
   useEffect(() => {
-    setStringCode(items.join(""))
+    const values = items.map((value)=>{
+      return value.value
+    })
+    setStringCode(values.join(""))
     items.map((value , key)=>{
       if(value.value !== "" && value.value !== " "){
         setFilledInputs(prev => prev + 1)
