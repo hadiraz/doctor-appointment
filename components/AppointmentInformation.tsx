@@ -16,11 +16,12 @@ type FormValidateTypes = {
 const AppointmentInformation = ({
   sectionSelected,
   setSectionSelected,
+  reserveStates
 }: SectionConfigType) => {
   const initialValue: FormTypes = {
-    firstName: "",
-    lastName: "",
-    idNumber: "",
+    firstName: reserveStates.reserveData.firstName,
+    lastName: reserveStates.reserveData.lastName,
+    idNumber: reserveStates.reserveData.idNumber,
   };
   const validate = (values: FormTypes) => {
     const errors: FormValidateTypes = {};
@@ -47,7 +48,8 @@ const AppointmentInformation = ({
     }
     return errors;
   };
-  const handleSubmit = () => {
+  const handleSubmit = (value:FormTypes) => {
+    reserveStates.setReserveData({...reserveStates.reserveData , firstName : value.firstName , lastName : value.lastName , idNumber : value.idNumber})
     setSectionSelected(3);
   };
 

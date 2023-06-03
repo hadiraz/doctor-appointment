@@ -24,6 +24,7 @@ type SelectedTimeType = {
 const AppointmentForm = ({
   sectionSelected,
   setSectionSelected,
+  reserveStates
 }: SectionConfigType) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<SelectedTimeType>({

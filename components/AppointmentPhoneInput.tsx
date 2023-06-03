@@ -14,9 +14,10 @@ type FormValidateTypes = {
 const AppointmentPhoneInput = ({
   sectionSelected,
   setSectionSelected,
+  reserveStates
 }: SectionConfigType) => {
   const initialValue: FormTypes = {
-    phone: "",
+    phone: reserveStates.reserveData.phone,
   };
 
   const validate = (values: FormTypes) => {
@@ -33,6 +34,8 @@ const AppointmentPhoneInput = ({
   };
   const handleSubmit = (value : FormTypes) => {
     // console.log(value , 5);
+    const digits = String(Math.floor(Math.random()*100000));
+    reserveStates.setReserveData({...reserveStates.reserveData , phone : value.phone , authDigits : digits})
     setSectionSelected(1);
   };
   return (
