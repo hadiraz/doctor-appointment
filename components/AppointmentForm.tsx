@@ -21,6 +21,7 @@ type SelectedTimeType = {
   date: number;
   time: number;
 };
+
 const AppointmentForm = ({
   sectionSelected,
   setSectionSelected,
@@ -107,8 +108,13 @@ const AppointmentForm = ({
   const handleTimeSelect = (time: number) => {
     setSelectedDate((prev) => ({ date: prev.date, time }));
   };
+  const handleSubmit : React.FormEventHandler = (e) => {
+    e.preventDefault();
+    reserveStates.reserveData.reservedDate && reserveStates.setReserveData({...reserveStates.reserveData , reservedDate : selectedDate.time})
+  }
   return (
     <form
+    onSubmit={handleSubmit}
       className={`flex px-3 w-full flex-col items-center rounded-2xl py-5 text-text transition-all duration-200 `}
     >
       <div
@@ -138,7 +144,7 @@ const AppointmentForm = ({
                         : "font-semibold text-center  text-xs"
                     } capitalize mb-1`}
                   >
-                    sunday
+                    {new Date(value.date).toLocaleDateString("en-US" , {weekday : "long"})}
                   </p>
                   <p
                     className={`${
@@ -183,10 +189,10 @@ const AppointmentForm = ({
       </div>
       <div className="flex w-full justify-between items-center mt-6">
         <button onClick={()=>setSectionSelected(prev => prev - 1)} className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
-          back
+          Back
         </button>
-        <button className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
-          Next
+        <button disabled={!selectedDate.date || !selectedDate.time ? true : false} className=" disabled:opacity-70 opacity-100 rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
+          Submit
         </button>
       </div>
     </form>
