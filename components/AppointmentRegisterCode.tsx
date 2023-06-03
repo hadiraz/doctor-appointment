@@ -23,7 +23,7 @@ const AppointmentRegisterCode = ({
     console.log(stringCode);
   }, [stringCode]);
   useEffect(() => {
-    toast("your code is:" + reserveStates.reserveData.authDigits, {
+    toast("your code is : " + reserveStates.reserveData.authDigits, {
       position: "top-right",
       autoClose: 10000,
       hideProgressBar: false,

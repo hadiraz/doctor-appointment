@@ -34,7 +34,10 @@ const AppointmentPhoneInput = ({
   };
   const handleSubmit = (value : FormTypes) => {
     // console.log(value , 5);
-    const digits = String(Math.floor(Math.random()*100000));
+    let digits = String(Math.floor(Math.random()*100000));
+    while (digits.length !== 5){
+      digits = String(Math.floor(Math.random()*100000));
+    }
     reserveStates.setReserveData({...reserveStates.reserveData , phone : value.phone , authDigits : digits})
     setSectionSelected(1);
   };
