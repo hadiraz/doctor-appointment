@@ -4,6 +4,7 @@ import React, {
   KeyboardEvent,
   useEffect,
   useState,
+  useRef
 } from "react";
 import SplitedInputs from "./SplitedInputs";
 import { SectionConfigType } from "@/pages/appointment";
@@ -19,9 +20,11 @@ const AppointmentRegisterCode = ({
   const [stringCode, setStringCode] = useState<string>("");
   const [submitStatus, setSubmitStatus] = useState<boolean>(true);
   const [error, setError] = useState<string>();
+  const containerRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     console.log(stringCode);
   }, [stringCode]);
+
   useEffect(() => {
     toast("your code is : " + reserveStates.reserveData.authDigits, {
       position: "top-right",
@@ -48,6 +51,7 @@ const AppointmentRegisterCode = ({
     <>
       <ToastContainer style={{zIndex : 1000 , marginTop:70}} limit={1}/>
       <div
+      ref={containerRef}
         style={{ ...glassStyle }}
         className={`flex w-fit flex-col items-center rounded-2xl text-text transition-all duration-200 p-5`}
       >
@@ -65,7 +69,6 @@ const AppointmentRegisterCode = ({
             <SplitedInputs
               setSubmitStatus={setSubmitStatus}
               inputsNumber={5}
-              stringCode={stringCode}
               setStringCode={setStringCode}
             />
           </div>

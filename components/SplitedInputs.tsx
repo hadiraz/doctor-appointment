@@ -14,9 +14,10 @@ import React, {
 } from "react";
 type InputsConfig = {
   inputsNumber: number;
-  separator: ReactElement;
-  setStringCode: React.Dispatch<React.SetStateAction<string>>;
-  setSubmitStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  separator ?: ReactElement;
+  setStringCode : React.Dispatch<React.SetStateAction<string>>;
+  setSubmitStatus ?: React.Dispatch<React.SetStateAction<boolean>>;
+  regex ?: RegExp
 };
 type ItemsType = {
   id: number;
@@ -28,6 +29,7 @@ const SplitedInputs = ({
   setStringCode,
   setSubmitStatus,
   separator = <span>-</span>,
+  regex = /^[0-9]*$/ ,
 }: InputsConfig) => {
   const [items, setItems] = useState<ItemsType[]>([]);
   const [pasteStatus, setPasteStatus] = useState<boolean>(false);
@@ -47,21 +49,25 @@ const SplitedInputs = ({
   }, [inputsNumber]);
 
   useEffect(() => {
+    setFilledInputs(0)
     const values = items.map((value) => {
       return value.value;
     });
     setStringCode(values.join(""));
     items.map((value, key) => {
-      if (value.value !== "" && value.value !== " ") {
-        setFilledInputs((prev) => prev + 1);
-      } else setFilledInputs(0);
-    });
+        if (value.value !== "" && value.value !== " ") {
+          setFilledInputs((prev) => prev + 1);
+        } else setFilledInputs(0);
+      });
   }, [items]);
-
+  
   useEffect(() => {
-    items.length !== 0 && filledInputs === items.length
+    if(setSubmitStatus){
+      console.log("hi")
+      items.length !== 0 && filledInputs === items.length
       ? setSubmitStatus(false)
       : setSubmitStatus(true);
+    }
   }, [filledInputs]);
 
   useEffect(() => {
@@ -94,7 +100,8 @@ const SplitedInputs = ({
     e?: ChangeEvent<HTMLInputElement>
   ) => {
     let enteredCharacter: string = digit;
-    const checkDigit = /\d/.test(enteredCharacter);
+    const checkDigit = regex.test(enteredCharacter);
+    console.log(checkDigit)
     const nextSiblingElement = items[id + 1]?.reference.current;
     if (!checkDigit) {
       enteredCharacter = "";
@@ -103,7 +110,7 @@ const SplitedInputs = ({
     if (checkDigit && nextSiblingElement) {
       nextSiblingElement.focus();
       // nextSiblingElement.select();
-    };
+    }
   };
 
   const inputKeyDownHandler = (
@@ -115,24 +122,24 @@ const SplitedInputs = ({
     if (
       target &&
       e.key !== "Backspace" &&
-      String(target.value) &&
+      Number(target.value) &&
       !String(nextElement?.value)
     ) {
       if(nextElement){
         nextElement.focus();
         nextElement.select()
       }
-    } else if (
-      target &&
-      e.key !== "Backspace" &&
-      String(target.value) &&
-      String(nextElement?.value)
-    ) {
-      checkDigits(e.key, id);
-      if(nextElement){
-        // nextElement.focus();
-        // nextElement.select();
-      }
+    // } else if (
+    //   target &&
+    //   e.key !== "Backspace" &&
+    //   String(target.value) &&
+    //   String(nextElement?.value)
+    // ) {
+    //   checkDigits(e.key, id);
+    //   if(nextElement){
+    //     // nextElement.focus();
+    //     // nextElement.select();
+    //   }
     }
     if (target && e.key === "Backspace") {
       const prevSibling = items[id - 1]?.reference.current;
