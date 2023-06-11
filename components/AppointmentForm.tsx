@@ -2,6 +2,8 @@ import { SectionConfigType } from "@/pages/appointment";
 import { glassStyle } from "@/public/styles/style";
 import React, { useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { start } from "repl";
 import { v4 as uuidv4 } from "uuid";
 
@@ -25,7 +27,7 @@ type SelectedTimeType = {
 const AppointmentForm = ({
   sectionSelected,
   setSectionSelected,
-  reserveStates
+  reserveStates,
 }: SectionConfigType) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<SelectedTimeType>({
@@ -54,10 +56,10 @@ const AppointmentForm = ({
       const hourToMilSec = date.getHours() * 60 * 60 * 1000;
       const minToMilSec = date.getMinutes() * 60 * 1000;
       const secToMilSec = date.getSeconds() * 1000;
-      const result = time - (hourToMilSec + minToMilSec + secToMilSec);
+      const result =
+        time -
+        (hourToMilSec + minToMilSec + secToMilSec + date.getMilliseconds());
       setCurrentTime(result);
-
-      console.log("hiiio");
     })();
   }, []);
   useEffect(() => {
@@ -79,51 +81,78 @@ const AppointmentForm = ({
         }
         setDaysList(days);
       };
-      const timeCounter = () => {
-        const startTime = currentTime + data.startTime * 60 * 60 * 1000;
-        const endTime = currentTime + data.endTime * 60 * 60 * 1000;
-        console.log((endTime - startTime) / (60 * 60 * 1000), 555);
-        console.log(new Date(currentTime).getMinutes(), 111);
-        let round = 0;
-        let newTime = 0;
-        let list: number[] = [];
-        while (endTime > newTime) {
-          console.log("hi", round);
-          newTime = startTime + round * data.step * 60 * 1000;
-          list.push(newTime);
-          round += 1;
-        }
-        setTimeList(list);
-      };
       daysCounter();
-      timeCounter();
     }
   }, [data, currentTime]);
+
+  const timeCounter = (date: number) => {
+    const startTime = date + data.startTime * 60 * 60 * 1000;
+    const endTime = date + data.endTime * 60 * 60 * 1000;
+    console.log((endTime - startTime) / (60 * 60 * 1000), 555);
+    console.log(new Date(date).getMinutes(), 111);
+    let round = 0;
+    let newTime = 0;
+    let list: number[] = [];
+    while (endTime > newTime) {
+      newTime = startTime + round * data.step * 60 * 1000;
+      !data.reservedTimes.includes(newTime) && list.push(newTime);
+      round += 1;
+    }
+    setTimeList(list);
+  };
+
   useEffect(() => {
-    console.log(selectedDate, 555);
-  }, [selectedDate]);
+    timeCounter(selectedDate.date);
+  }, [selectedDate.date]);
+
   const handleDaySelect = (timeObj: DateObjectType) => {
     setSelectedDate({ date: timeObj.time, time: 0 });
   };
   const handleTimeSelect = (time: number) => {
     setSelectedDate((prev) => ({ date: prev.date, time }));
   };
-  const handleSubmit : React.FormEventHandler = (e) => {
+  const handleSubmit: React.FormEventHandler = async (e) => {
     e.preventDefault();
-    reserveStates.reserveData.reservedDate && reserveStates.setReserveData({...reserveStates.reserveData , reservedDate : selectedDate.time})
-  }
+    reserveStates.reserveData.reservedDate &&
+      reserveStates.setReserveData({
+        ...reserveStates.reserveData,
+        reservedDate: selectedDate.time,
+      });
+    const sendData = await fetch("/api/appointment", {
+      method: "PATCH",
+      body: JSON.stringify({
+        reservedTimes: [...data.reservedTimes, selectedDate.time],
+      }),
+    });
+    sendData.status === 200 ? setSectionSelected(4) :   toast.error("something went wrong!", {
+      position: "top-right",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });;
+  };
   return (
     <form
-    onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       className={`flex px-3 w-full flex-col items-center rounded-2xl py-5 text-text transition-all duration-200 `}
     >
+      <ToastContainer style={{zIndex : 1000 , marginTop:70}} limit={1}/>
       <div
         style={{ ...glassStyle }}
         className="flex w-fit max-w-full rounded-3xl relative z-[2] backdrop-blur-md py-1 overflow-hidden"
       >
         {/* <span className="flex absolute w-8 backdrop-blur-sm h-full right-[-8px] top-0 z-[1]"></span> */}
-      <Scrollbars autoHeight  autoHeightMax={90} autoHeightMin={65} className="flex !w-full !flex-row" style={{ width: "300px" , display:"flex" , flexDirection:"row" }}>
-        <div className="flex !flex-row min-w-[500px] w-full h-full items-center py-1 mx-2">
+        <Scrollbars
+          autoHeight
+          autoHeightMax={90}
+          autoHeightMin={65}
+          className="flex !w-full !flex-row"
+          style={{ width: "300px", display: "flex", flexDirection: "row" }}
+        >
+          <div className="flex !flex-row min-w-[500px] w-full h-full items-center py-1 mx-2">
             {daysList.map((value, key) => {
               return (
                 <div
@@ -144,7 +173,9 @@ const AppointmentForm = ({
                         : "font-semibold text-center  text-xs"
                     } capitalize mb-1`}
                   >
-                    {new Date(value.date).toLocaleDateString("en-US" , {weekday : "long"})}
+                    {new Date(value.date).toLocaleDateString("en-US", {
+                      weekday: "long",
+                    })}
                   </p>
                   <p
                     className={`${
@@ -158,13 +189,14 @@ const AppointmentForm = ({
                 </div>
               );
             })}
-        </div>
-          </Scrollbars>
+          </div>
+        </Scrollbars>
       </div>
       <div className="grid grid-cols-1 2xs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2 w-fit flex-wrap mt-5">
         {timeList.map((value, key) => {
           const startDate = new Date(value);
           const endDate = new Date(value + data.step * 60 * 1000);
+          console.log(data.reservedTimes.includes(value));
           if (startDate.getHours() < data.endTime) {
             return (
               <div
@@ -188,10 +220,16 @@ const AppointmentForm = ({
         })}
       </div>
       <div className="flex w-full justify-between items-center mt-6">
-        <button onClick={()=>setSectionSelected(prev => prev - 1)} className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
+        <button
+          onClick={() => setSectionSelected((prev) => prev - 1)}
+          className="rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg"
+        >
           Back
         </button>
-        <button disabled={!selectedDate.date || !selectedDate.time ? true : false} className=" disabled:opacity-70 opacity-100 rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg">
+        <button
+          disabled={!selectedDate.date || !selectedDate.time ? true : false}
+          className=" disabled:opacity-70 opacity-100 rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg"
+        >
           Submit
         </button>
       </div>
