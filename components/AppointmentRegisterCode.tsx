@@ -4,7 +4,7 @@ import React, {
   KeyboardEvent,
   useEffect,
   useState,
-  useRef
+  useRef,
 } from "react";
 import SplitedInputs from "./SplitedInputs";
 import { SectionConfigType } from "@/pages/appointment";
@@ -12,6 +12,19 @@ import { glassStyle } from "@/public/styles/style";
 import { Formik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+export type UserLastReserveType = {
+    firstName: string;
+    lastName: string;
+    idNumber: string;
+    reservedTime: number;
+    submitTime : number
+}
+type UserType = {
+  id: number;
+  phone: string;
+  reservesList : UserLastReserveType[];
+};
 const AppointmentRegisterCode = ({
   sectionSelected,
   setSectionSelected,
@@ -20,10 +33,7 @@ const AppointmentRegisterCode = ({
   const [stringCode, setStringCode] = useState<string>("");
   const [submitStatus, setSubmitStatus] = useState<boolean>(true);
   const [error, setError] = useState<string>();
-  const containerRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    console.log(stringCode);
-  }, [stringCode]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     toast("your code is : " + reserveStates.reserveData.authDigits, {
@@ -38,20 +48,48 @@ const AppointmentRegisterCode = ({
     });
   }, []);
 
-  useEffect(()=>{
-    setError("")
-  },[stringCode])
+  useEffect(() => {
+    setError("");
+  }, [stringCode]);
 
-  const handleSubmit: FormEventHandler = (e) => {
+  const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    stringCode === reserveStates.reserveData.authDigits ? setSectionSelected(2) : setError("code is not correct");
+    const getAllData :UserType[] = await fetch(`http://localhost:3004/users`)
+      .then((resp) => resp)
+      .then((resp) => resp.json());
+    const findUser = getAllData.filter(value => value.phone === reserveStates.reserveData.phone)
+    if (findUser.length) {
+      const { id, reservesList } = findUser[0];
+      reserveStates.setReserveData((prev) => {
+        if(reservesList){
+          return {
+            ...prev,
+            id,
+            reservesList,
+          };
+        }else{
+          return {
+            ...prev,
+            id,
+            lastReservation : []
+          };
+        }
+      });
+    } else {
+      reserveStates.setReserveData((prev) => {
+        return { ...prev, id: getAllData.length + 1 , reservesList : [] };
+      });
+    }
+    stringCode === reserveStates.reserveData.authDigits
+      ? setSectionSelected(2)
+      : setError("code is not correct");
   };
 
   return (
     <>
-      <ToastContainer style={{zIndex : 1000 , marginTop:70}} limit={1}/>
+      <ToastContainer style={{ zIndex: 1000, marginTop: 70 }} limit={1} />
       <div
-      ref={containerRef}
+        ref={containerRef}
         style={{ ...glassStyle }}
         className={`flex w-fit flex-col items-center rounded-2xl text-text transition-all duration-200 p-5`}
       >
@@ -72,7 +110,9 @@ const AppointmentRegisterCode = ({
               setStringCode={setStringCode}
             />
           </div>
-          <span className="flex w-full justify-center items-center text-red-500">{error}</span>
+          <span className="flex w-full justify-center items-center text-red-500">
+            {error}
+          </span>
           <div className="flex w-full justify-between items-center mt-6">
             <button
               className="w-fit text-sm font-bold mt-5"

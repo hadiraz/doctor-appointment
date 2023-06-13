@@ -50,6 +50,7 @@ const AppointmentForm = ({
         .then((res) => res)
         .then((res) => res.json());
       setData(getData);
+
       /** generate the start day time "00:00" in millisecond */
       const date = new Date();
       const time = date.getTime();
@@ -63,7 +64,6 @@ const AppointmentForm = ({
     })();
   }, []);
   useEffect(() => {
-    console.log(data, 88);
     if (data.step && currentTime) {
       const daysCounter = () => {
         let days: DateObjectType[] = [];
@@ -88,8 +88,6 @@ const AppointmentForm = ({
   const timeCounter = (date: number) => {
     const startTime = date + data.startTime * 60 * 60 * 1000;
     const endTime = date + data.endTime * 60 * 60 * 1000;
-    console.log((endTime - startTime) / (60 * 60 * 1000), 555);
-    console.log(new Date(date).getMinutes(), 111);
     let round = 0;
     let newTime = 0;
     let list: number[] = [];
@@ -113,33 +111,53 @@ const AppointmentForm = ({
   };
   const handleSubmit: React.FormEventHandler = async (e) => {
     e.preventDefault();
+    const { reserveData } = reserveStates;
+    const {id,firstName,lastName,phone,idNumber,reservedDate,authDigits,reservesList} = reserveData;
+
     reserveStates.reserveData.reservedDate &&
-      reserveStates.setReserveData({
-        ...reserveStates.reserveData,
-        reservedDate: selectedDate.time,
-      });
-    const sendData = await fetch("/api/appointment", {
-      method: "PATCH",
+      reserveStates.setReserveData({...reserveStates.reserveData,reservedDate: selectedDate.time });
+
+    const sendReserveData = await fetch("/api/appointment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         reservedTimes: [...data.reservedTimes, selectedDate.time],
+        userData: {
+          id,
+          phone,
+          reservesList: [
+            ...reservesList,
+            {
+              firstName,
+              lastName,
+              idNumber,
+              submitTime: new Date(),
+              reservedTime: selectedDate.time,
+            },
+          ],
+        },
       }),
     });
-    sendData.status === 200 ? setSectionSelected(4) :   toast.error("something went wrong!", {
-      position: "top-right",
-      autoClose: 10000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });;
+    sendReserveData.status === 200
+      ? setSectionSelected(4)
+      : toast.error("something went wrong!", {
+          position: "top-right",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
   };
   return (
     <form
       onSubmit={handleSubmit}
       className={`flex px-3 w-full flex-col items-center rounded-2xl py-5 text-text transition-all duration-200 `}
     >
-      <ToastContainer style={{zIndex : 1000 , marginTop:70}} limit={1}/>
+      <ToastContainer style={{ zIndex: 1000, marginTop: 70 }} limit={1} />
       <div
         style={{ ...glassStyle }}
         className="flex w-fit max-w-full rounded-3xl relative z-[2] backdrop-blur-md py-1 overflow-hidden"
@@ -196,7 +214,6 @@ const AppointmentForm = ({
         {timeList.map((value, key) => {
           const startDate = new Date(value);
           const endDate = new Date(value + data.step * 60 * 1000);
-          console.log(data.reservedTimes.includes(value));
           if (startDate.getHours() < data.endTime) {
             return (
               <div

@@ -1,7 +1,7 @@
 import AppointmentForm from "@/components/AppointmentForm";
 import AppointmentInformation from "@/components/AppointmentInformation";
 import AppointmentPhoneInput from "@/components/AppointmentPhoneInput";
-import AppointmentRegisterCode from "@/components/AppointmentRegisterCode";
+import AppointmentRegisterCode, { UserLastReserveType } from "@/components/AppointmentRegisterCode";
 import AppointmentSuccess from "@/components/AppointmentSuccess";
 import React, { useEffect, useRef, useState } from "react";
 export type SectionConfigType = {
@@ -10,12 +10,14 @@ export type SectionConfigType = {
   setSectionSelected: React.Dispatch<React.SetStateAction<number>>;
 };
 type ReserveType = {
+  id: number;
   firstName: string;
   lastName: string;
   phone: string;
   idNumber: string;
   reservedDate: number;
-  authDigits : string
+  authDigits: string;
+  reservesList: UserLastReserveType[];
 };
 export type ReservedSatesType = {
   reserveData: ReserveType;
@@ -24,16 +26,18 @@ export type ReservedSatesType = {
 const Appointment = () => {
   const [sectionSelected, setSectionSelected] = useState<number>(0);
   const [reserveData, setReserveData] = useState<ReserveType>({
+    id : 0,
     firstName: "",
     lastName: "",
     phone: "",
     idNumber: "",
     reservedDate: 0,
-    authDigits : ""
+    authDigits: "",
+    reservesList :[]
   });
-  useEffect(()=>{
-    window.scrollTo(0,0)
-  },[sectionSelected])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [sectionSelected]);
   return (
     <section className="flex flex-col items-center w-full sm:max-w-2xl min-h-screen bg-transparent rounded-xl px-2 relative z-[2]">
       <div className="hidden sm:flex w-full items-center">
@@ -178,9 +182,7 @@ const Appointment = () => {
             setSectionSelected={setSectionSelected}
           />
         )}
-        {sectionSelected === 4 && (
-          <AppointmentSuccess/>
-        )}
+        {sectionSelected === 4 && <AppointmentSuccess />}
       </div>
     </section>
   );
