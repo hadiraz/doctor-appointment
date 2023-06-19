@@ -43,52 +43,54 @@ const BlogPost = () => {
         </div>
       </article>
       <div className="flex flex-col w-full mt-10">
-        <p className="text-xl w-fit font-extrabold relative after:w-full after:h-[2px] after:bg-[#999999] after:absolute after:bottom-[-2px] after:left-0">Related posts</p>
+        <p className="text-xl w-fit font-extrabold relative after:w-full after:h-[2px] after:bg-[#999999] after:absolute after:bottom-[-2px] after:left-0">
+          Related posts
+        </p>
         <ul className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full mt-6">
           <li className="flex w-full">
             <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-            <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-        </div>
+              <div className="w-full flex items-center justify-center">
+                <Image
+                  src={Hospital}
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                  alt="hospital"
+                  className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
+                />
+              </div>
+              <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </h3>
+            </div>
           </li>
           <li className="flex w-full">
             <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-            <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-        </div>
+              <div className="w-full flex items-center justify-center">
+                <Image
+                  src={Hospital}
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                  alt="hospital"
+                  className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
+                />
+              </div>
+              <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </h3>
+            </div>
           </li>
           <li className="flex w-full">
             <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-            <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-        </div>
+              <div className="w-full flex items-center justify-center">
+                <Image
+                  src={Hospital}
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                  alt="hospital"
+                  className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
+                />
+              </div>
+              <h3 className="w-full text-lg text-justify mt-5 font-bold text-text leading-tight">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </h3>
+            </div>
           </li>
         </ul>
       </div>
