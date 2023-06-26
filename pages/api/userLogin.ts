@@ -15,8 +15,10 @@ export default async function UserLogin(req: NextApiRequest, res: NextApiRespons
                 method : "POST" ,
                 headers : {"Content-Type" : "application/json" },
                 body : JSON.stringify({phone : req.body.phone})
-            }).then(resp=>resp).then(resp=>resp);
-            return res.status(200).end()
+            });
+            if(setUser.ok){
+                return res.status(200).end()
+            }else return res.status(400).end()
         }
     }
 }
