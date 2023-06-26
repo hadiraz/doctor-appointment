@@ -21,16 +21,16 @@ export default async function handler(
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({reservedTimes:req.body.reservedTimes}),
+            body: JSON.stringify({ reservedTimes: req.body.reservedTimes }),
         });
         if (timesUpdate.ok) {
             const getUsers: {
                 lastReserves: UserLastReserveType[];
                 id: number;
-                firstName: string;
-                lastName: string;
+                firstName?: string;
+                lastName?: string;
                 phone: string;
-                idNumber: string;
+                idNumber?: string;
             }[] = await fetch(serverUsersApi).then(resp => resp).then(resp => resp.json());
 
             const checkCurrentUser = getUsers.filter(value => value.phone === req.body.userData.phone);
