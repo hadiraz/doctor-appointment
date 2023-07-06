@@ -4,10 +4,10 @@ import { useFormik, Formik, Form, Field , FormikState } from "formik";
 import React, { FormEventHandler } from "react";
 import styled from "styled-components";
 
-type FormTypes = {
+export type FormTypes = {
   phone: string;
 };
-type FormValidateTypes = {
+export type FormValidateTypes = {
   phone ?: string;
 };
 
@@ -57,15 +57,11 @@ const AppointmentPhoneInput = ({
           Please enter your phone number
         </p>
         <Field
-          style={{
-            boxShadow: "0px 0px 12px -2px #ccc",
-            background: "#ffffff5b",
-          }}
           type="tel"
           name="phone"
           maxLength={11}
           minLength={11}
-          className="max-w-[250px] w-full px-2 py-2 border-none outline-none border-gray-400 bg-transparent rounded-xl"
+          className="max-w-[250px] w-full px-2 py-2 outline-none border-b-[1px] border-b-gray-400 bg-transparent focus:border-b-primary focus:border-b-[2px]"
           placeholder="09123456789"
         />
         <span className="flex w-full text-red-600 justify-center text-sm mt-1">{touched.phone && errors.phone}</span>

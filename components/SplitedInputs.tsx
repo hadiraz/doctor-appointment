@@ -28,7 +28,7 @@ const SplitedInputs = ({
   inputsNumber,
   setStringCode,
   setSubmitStatus,
-  separator = <span>-</span>,
+  separator,
   regex = /^[0-9]*$/ ,
 }: InputsConfig) => {
   const [items, setItems] = useState<ItemsType[]>([]);
@@ -63,7 +63,6 @@ const SplitedInputs = ({
   
   useEffect(() => {
     if(setSubmitStatus){
-      console.log("hi")
       items.length !== 0 && filledInputs === items.length
       ? setSubmitStatus(false)
       : setSubmitStatus(true);
