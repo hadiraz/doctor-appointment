@@ -1,7 +1,8 @@
 import React, { FormEventHandler, useEffect, useState } from "react";
-import SplitedInputs from "./SplitedInputs";
+import SplitedInputs from "../multipleInputs/SplitedInputs";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import {atom, useRecoilState} from 'recoil';
 
 const UserLoginCode = ({
   phoneNumber,
@@ -15,29 +16,31 @@ const UserLoginCode = ({
   code: { code: string; setCode: React.Dispatch<React.SetStateAction<string>> };
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-    const router = useRouter()
-  const handleSubmit : FormEventHandler<HTMLFormElement>  = async (e) => {
+  const router = useRouter();
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const sendData = await fetch("/api/userLogin", {
+    const sendData = await fetch("/api/user/userLogin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ phone: phoneNumber.phone }),
     });
-    if(sendData.status === 200){
-        router.replace("/user/dashboard")
-    }else {
-        toast.error(`Something went wrong`, {
-            position: "top-right",
-            autoClose: 10000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+    console.log(sendData.status)
+    if (sendData.status === 200) {
+      router.replace("/user/dashboard");
+    } else {
+      toast.error(`Something went wrong`, {
+        position: "top-right",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   const [codeSubmit, setCodeSubmit] = useState(false);
@@ -55,7 +58,10 @@ const UserLoginCode = ({
       });
   }, [code]);
   return (
-    <form onSubmit={handleSubmit} className="w-full h-full flex flex-col items-center">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full h-full flex flex-col items-center"
+    >
       <h4 className="w-full font-bold text-center mb-4">Nikan Hospital</h4>
       <p className="mb-4 w-full text-left">
         Code sent to

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { ChangeEvent, ReactElement, useState } from "react";
-import { FormTypes, FormValidateTypes } from "./AppointmentPhoneInput";
+import { FormTypes, FormValidateTypes } from "../appointment/AppointmentPhoneInput";
 import { Field, Form, Formik, FormikState } from "formik";
 
 const UserLoginPhoneForm = ({

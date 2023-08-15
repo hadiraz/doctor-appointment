@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Hospital from "@/public/assets/images/hospital-services.jpg";
-import TitleIconContainer from "./TitleIconContainer";
+import TitleIconContainer from "../shared/TitleIconContainer";
 const Services = () => {
   return (
     <>

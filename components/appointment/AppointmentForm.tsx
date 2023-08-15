@@ -1,5 +1,8 @@
+import { connectToDatabase } from "@/lib/mongodb";
 import { SectionConfigType } from "@/pages/appointment";
 import { glassStyle } from "@/public/styles/style";
+import { Document, FindCursor, ObjectId, WithId } from "mongodb";
+import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { toast } from "react-toastify";
@@ -7,12 +10,15 @@ import { ToastContainer } from "react-toastify";
 import { start } from "repl";
 import { v4 as uuidv4 } from "uuid";
 
-type AppointmentDataType = {
-  startTime: number;
-  endTime: number;
-  step: number;
-  offDays: number[];
-  reservedTimes: number[];
+export type AppointmentDataType = {
+  _id?: ObjectId;
+  timeSettings: {
+    startTime: number;
+    endTime: number;
+    step: number;
+    offDays: number[] | null;
+  };
+  reservedTimes: number[] | null;
 };
 type DateObjectType = {
   day: number;
@@ -37,19 +43,24 @@ const AppointmentForm = ({
   const [daysList, setDaysList] = useState<DateObjectType[]>([]);
   const [timeList, setTimeList] = useState<number[]>([]);
   const [data, setData] = useState<AppointmentDataType>({
-    startTime: 0,
-    endTime: 0,
-    step: 0,
-    offDays: [],
-    reservedTimes: [],
+    timeSettings: {
+      startTime: 0,
+      endTime: 0,
+      step: 0,
+      offDays: null,
+    },
+    reservedTimes: null,
   });
   const [currentTime, setCurrentTime] = useState<number>(0);
   useEffect(() => {
     (async () => {
-      const getData = await fetch("http://localhost:3004/time")
+      const getData: AppointmentDataType[] = await fetch(
+        "http://localhost:3000/api/appointment/timeSettings"
+      )
         .then((res) => res)
         .then((res) => res.json());
-      setData(getData);
+
+      setData(getData[0]);
 
       /** generate the start day time "00:00" in millisecond */
       const date = new Date();
@@ -64,7 +75,8 @@ const AppointmentForm = ({
     })();
   }, []);
   useEffect(() => {
-    if (data.step && currentTime) {
+    console.log(data , "hhihihihiooo")
+    if (data.timeSettings.step && currentTime) {
       const daysCounter = () => {
         let days: DateObjectType[] = [];
         let i = 1;
@@ -83,17 +95,17 @@ const AppointmentForm = ({
       };
       daysCounter();
     }
-  }, [data, currentTime]);
+  }, [data.timeSettings.step && currentTime]);
 
   const timeCounter = (date: number) => {
-    const startTime = date + data.startTime * 60 * 60 * 1000;
-    const endTime = date + data.endTime * 60 * 60 * 1000;
+    const startTime = date + data.timeSettings.startTime * 60 * 60 * 1000;
+    const endTime = date + data.timeSettings.endTime * 60 * 60 * 1000;
     let round = 0;
     let newTime = 0;
     let list: number[] = [];
     while (endTime > newTime) {
-      newTime = startTime + round * data.step * 60 * 1000;
-      !data.reservedTimes.includes(newTime) && list.push(newTime);
+      newTime = startTime + round * data.timeSettings.step * 60 * 1000;
+      !data.reservedTimes?.includes(newTime) && list.push(newTime);
       round += 1;
     }
     setTimeList(list);
@@ -112,23 +124,36 @@ const AppointmentForm = ({
   const handleSubmit: React.FormEventHandler = async (e) => {
     e.preventDefault();
     const { reserveData } = reserveStates;
-    const {id,firstName,lastName,phone,idNumber,reservedDate,authDigits,reservesList} = reserveData;
+    const {
+      id,
+      firstName,
+      lastName,
+      phone,
+      idNumber,
+      reservedDate,
+      authDigits,
+      reservesList,
+    } = reserveData;
 
     reserveStates.reserveData.reservedDate &&
-      reserveStates.setReserveData({...reserveStates.reserveData,reservedDate: selectedDate.time });
+      reserveStates.setReserveData({
+        ...reserveStates.reserveData,
+        reservedDate: selectedDate.time,
+      });
 
-    const sendReserveData = await fetch("/api/appointment", {
+    const sendReserveData = await fetch("/api/appointment/setAppointment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        reservedTimes: [...data.reservedTimes, selectedDate.time],
+        reservedTimes: {
+          data: selectedDate.time,
+          id: data?._id,
+        },
         userData: {
-          id,
           phone,
-          reservesList: [
-            ...reservesList,
+          reservesList:
             {
               firstName,
               lastName,
@@ -136,7 +161,6 @@ const AppointmentForm = ({
               submitTime: new Date(),
               reservedTime: selectedDate.time,
             },
-          ],
         },
       }),
     });
@@ -213,8 +237,8 @@ const AppointmentForm = ({
       <div className="grid grid-cols-1 2xs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2 w-fit flex-wrap mt-5">
         {timeList.map((value, key) => {
           const startDate = new Date(value);
-          const endDate = new Date(value + data.step * 60 * 1000);
-          if (startDate.getHours() < data.endTime) {
+          const endDate = new Date(value + data.timeSettings.step * 60 * 1000);
+          if (startDate.getHours() < data.timeSettings.endTime) {
             return (
               <div
                 key={uuidv4()}
@@ -253,5 +277,4 @@ const AppointmentForm = ({
     </form>
   );
 };
-
 export default AppointmentForm;

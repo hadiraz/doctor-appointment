@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: ReactElement }) => {
     <div
       className={`flex w-full min-h-screen justify-between flex-col items-center relative font-lato bg-mainBg`}
     >
-      {pathname !== "/login" && <Header />}
+      {pathname !== "/user/login" && <Header />}
       {responsiveHeaderShown && (
         <ResponsiveNav
           className={`${!navStatus && "!-right-full !w-[70vw]"}`}
@@ -27,11 +27,11 @@ const Layout = ({ children }: { children: ReactElement }) => {
         />
       )}
       <main
-        className={`w-full h-full flex flex-col items-center ${pathname !== "/login" ? "my-5" : ""}`}
+        className={`w-full h-full flex flex-col items-center ${pathname !== "/user/login" ? "my-5" : ""}`}
       >
         <LayoutContext.Provider value={{setNavStatus , setHeaderShown , setResponsiveHeaderShown , setFooterShown , setMainTagMarginClass}} >{children}</LayoutContext.Provider>
       </main>
-      {pathname !== "/login" && <Footer />}
+      {pathname !== "/user/login" && <Footer />}
     </div>
   );
 };

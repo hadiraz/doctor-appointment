@@ -1,7 +1,7 @@
 import React from "react";
 import SwiperComponent from "./SwiperComponent";
 import TeamSwiperItems from "./TeamSwiperItems";
-import TitleIconContainer from "./TitleIconContainer";
+import TitleIconContainer from "../shared/TitleIconContainer";
 
 const TeamSwiperContainer = () => {
   return (

@@ -6,7 +6,7 @@ import React, {
   useState,
   useRef,
 } from "react";
-import SplitedInputs from "./SplitedInputs";
+import SplitedInputs from "../multipleInputs/SplitedInputs";
 import { SectionConfigType } from "@/pages/appointment";
 import { glassStyle } from "@/public/styles/style";
 import { Formik } from "formik";
@@ -14,16 +14,16 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export type UserLastReserveType = {
-    firstName: string;
-    lastName: string;
-    idNumber: string;
-    reservedTime: number;
-    submitTime : number
-}
+  firstName: string;
+  lastName: string;
+  idNumber: string;
+  reservedTime: number;
+  submitTime: number;
+};
 type UserType = {
-  id: number;
+  _id: object;
   phone: string;
-  reservesList : UserLastReserveType[];
+  reservesList: UserLastReserveType[];
 };
 const AppointmentRegisterCode = ({
   sectionSelected,
@@ -54,30 +54,39 @@ const AppointmentRegisterCode = ({
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    const getAllData :UserType[] = await fetch(`http://localhost:3004/users`)
+    const getUser: UserType = await fetch(
+      `http://localhost:3000/api/user/getUsers`,
+      {
+        method: "POST",
+        body: JSON.stringify({ phone: reserveStates.reserveData.phone }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((resp) => resp)
       .then((resp) => resp.json());
-    const findUser = getAllData.filter(value => value.phone === reserveStates.reserveData.phone)
-    if (findUser.length) {
-      const { id, reservesList } = findUser[0];
+   
+      if (getUser) {
+      const { _id, reservesList } = getUser;
       reserveStates.setReserveData((prev) => {
-        if(reservesList){
+        if (reservesList) {
           return {
             ...prev,
-            id,
+            id : _id,
             reservesList,
           };
-        }else{
+        } else {
           return {
             ...prev,
-            id,
-            lastReservation : []
+            id : _id,
+            reservesList: [],
           };
         }
       });
     } else {
       reserveStates.setReserveData((prev) => {
-        return { ...prev, id: getAllData.length + 1 , reservesList : [] };
+        return { ...prev  , reservesList: [] };
       });
     }
     stringCode === reserveStates.reserveData.authDigits
