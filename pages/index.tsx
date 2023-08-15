@@ -1,8 +1,8 @@
-import MainPageBanner from "@/components/MainPageBanner";
-import TeamSwiperContainer from "@/components/TeamSwiperContainer";
+import MainPageBanner from "@/components/mainPage/MainPageBanner";
+import TeamSwiperContainer from "@/components/swiper/TeamSwiperContainer";
 import Image from "next/image";
 import Nuclear from "@/public/assets/images/nuclear-image.jpg";
-import Services from "@/components/Services";
+import Services from "@/components/mainPage/Services";
 export default function Home() {
   return (
     <section className="flex w-full flex-col items-center min-h-screen max-w-7xl px-3">

@@ -1,15 +1,15 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout/Layout";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
-import { register } from 'swiper/element/bundle';
+import React from "react";;
+
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(()=>{
-    register()
-  },[])
+
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
   );
 }
+

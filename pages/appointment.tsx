@@ -1,16 +1,19 @@
-import AppointmentForm from "@/components/AppointmentForm";
-import AppointmentInformation from "@/components/AppointmentInformation";
-import AppointmentPhoneInput from "@/components/AppointmentPhoneInput";
-import AppointmentRegisterCode, { UserLastReserveType } from "@/components/AppointmentRegisterCode";
-import AppointmentSuccess from "@/components/AppointmentSuccess";
+import AppointmentForm, { AppointmentDataType } from "@/components/appointment/AppointmentForm";
+import AppointmentInformation from "@/components/appointment/AppointmentInformation";
+import AppointmentPhoneInput from "@/components/appointment/AppointmentPhoneInput";
+import AppointmentRegisterCode, { UserLastReserveType } from "@/components/appointment/AppointmentRegisterCode";
+import AppointmentSuccess from "@/components/appointment/AppointmentSuccess";
+import { Document, FindCursor, WithId } from "mongodb";
 import React, { useEffect, useRef, useState } from "react";
+import type {GetServerSideProps , InferGetServerSidePropsType} from "next"
+import { time } from "console";
 export type SectionConfigType = {
   reserveStates: ReservedSatesType;
   sectionSelected: number;
   setSectionSelected: React.Dispatch<React.SetStateAction<number>>;
 };
-type ReserveType = {
-  id: number;
+export type ReserveType = {
+  id?: object;
   firstName: string;
   lastName: string;
   phone: string;
@@ -26,7 +29,6 @@ export type ReservedSatesType = {
 const Appointment = () => {
   const [sectionSelected, setSectionSelected] = useState<number>(0);
   const [reserveData, setReserveData] = useState<ReserveType>({
-    id : 0,
     firstName: "",
     lastName: "",
     phone: "",

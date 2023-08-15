@@ -1,19 +1,18 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import SplitedInputs from "@/components/SplitedInputs";
+import SplitedInputs from "@/components/multipleInputs/SplitedInputs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UserLoginPhoneForm from "@/components/UserLoginPhoneForm";
+import UserLoginPhoneForm from "@/components/login/UserLoginPhoneForm";
 import Doctor from "@/public/assets/images/doctor-login-min.png";
-import UserLoginCode from "@/components/UserLoginCode";
-
+import UserLoginCode from "@/components/login/UserLoginCode";
 const Login = () => {
   const [step, setStep] = useState(0);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [codeSubmit, setCodeSubmit] = useState(false);
-
+  
   return (
     <>
       <ToastContainer style={{ zIndex: 1000, marginTop: 30 }} limit={1} />

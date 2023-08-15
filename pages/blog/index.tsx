@@ -1,8 +1,24 @@
-import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import Hospital from "@/public/assets/images/hospital-services.jpg";
-import TitleIconContainer from "@/components/TitleIconContainer";
-const Index = () => {
+import TitleIconContainer from "@/components/shared/TitleIconContainer";
+import { GetStaticProps, GetServerSideProps } from "next/types";
+import { connectToDatabase } from "@/lib/mongodb";
+import { Document, WithId } from "mongodb";
+import BlogItems from "@/components/blog/BlogItems";
+export type BlogPostType = {
+  _id: object;
+  author: {
+    name: string;
+    _id: object;
+  };
+  title: string;
+  body: string;
+  images: string[];
+  slug: string;
+  created_date: string;
+};
+const Index = ({posts}: {posts:string}) => {
+  console.log(JSON.parse(posts))
   return (
     <section className="flex flex-col w-full max-w-7xl">
       {/* icon must be added */}
@@ -16,129 +32,31 @@ const Index = () => {
         <p className="flex text-2xl font-bold">Blog</p>
       </div>
       <section className="grid place-items-center gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full px-4">
-        <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-          <article className="flex flex-col w-full mt-5 px-1">
-            <h3 className="w-full text-lg font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-            <p className="flex w-full break-words text-sm mt-2 text-[#6f6f6f] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et,
-              maiores animi ratione delectus adipisci rem iure eius optio autem
-              suscipit.
-            </p>
-          </article>
-        </div>
-        <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-          <article className="flex flex-col w-full mt-5 px-1">
-            <h3 className="w-full text-lg font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-            <p className="flex w-full break-words text-sm mt-2 text-[#6f6f6f] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et,
-              maiores animi ratione delectus adipisci rem iure eius optio autem
-              suscipit.
-            </p>
-          </article>
-        </div>
-        <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-          <article className="flex flex-col w-full mt-5 px-1">
-            <h3 className="w-full text-lg font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-            <p className="flex w-full break-words text-sm mt-2 text-[#6f6f6f] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et,
-              maiores animi ratione delectus adipisci rem iure eius optio autem
-              suscipit.
-            </p>
-          </article>
-        </div>
-        <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-          <article className="flex flex-col w-full mt-5 px-1">
-            <h3 className="w-full text-lg font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-            <p className="flex w-full break-words text-sm mt-2 text-[#6f6f6f] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et,
-              maiores animi ratione delectus adipisci rem iure eius optio autem
-              suscipit.
-            </p>
-          </article>
-        </div>
-        <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-          <article className="flex flex-col w-full mt-5 px-1">
-            <h3 className="w-full text-lg font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-            <p className="flex w-full break-words text-sm mt-2 text-[#6f6f6f] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et,
-              maiores animi ratione delectus adipisci rem iure eius optio autem
-              suscipit.
-            </p>
-          </article>
-        </div>
-        <div className="flex group flex-col items-center justify-between py-5 px-6 rounded-xl bg-[#f3f3f3] transition-all duration-200 hover:shadow-lg hover:translate-y-1">
-          <div className="w-full flex items-center justify-center">
-            <Image
-              src={Hospital}
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              alt="hospital"
-              className="rounded-xl shadow-lg group-hover:scale-[1.03] transition-all duration-200"
-            />
-          </div>
-          <article className="flex flex-col w-full mt-5 px-1">
-            <h3 className="w-full text-lg font-bold text-text leading-tight">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </h3>
-            <p className="flex w-full break-words text-sm mt-2 text-[#6f6f6f] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et,
-              maiores animi ratione delectus adipisci rem iure eius optio autem
-              suscipit.
-            </p>
-          </article>
-        </div>
+        {
+          JSON.parse(posts).map((value : BlogPostType)=>{
+            return (
+              <BlogItems postData={value} key={value.slug}/>
+            )
+          })
+        }
       </section>
     </section>
   );
 };
 
 export default Index;
+
+
+export const getStaticProps: GetStaticProps<{
+  posts: string;
+}> = async () => {
+  const { db } = await connectToDatabase();
+  const allPosts = await db.collection("blog").find({}).toArray();
+  console.log(allPosts)
+    return {
+      props: {
+        posts: JSON.stringify(allPosts),
+      },
+      revalidate : 24*60*60
+    };
+};
