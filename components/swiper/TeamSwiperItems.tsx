@@ -14,7 +14,7 @@ const ArticleSec = styled.article<ArticleType>`
 const TeamSwiperItems = () => {
   const [infoStatus, setInfoStatus] = useState(false);
   return (
-    <div className="flex min-h-[400px] flex-col items-center z-10">
+    <div className="flex min-h-[400px] w-full flex-col items-center z-10">
       <div
         className={`flex justify-center rounded-full overflow-hidden absolute bg-white shadow-lg`}
       >
@@ -35,7 +35,7 @@ const TeamSwiperItems = () => {
         } flex-col w-full items-center rounded-3xl bg-white p-4 pt-20 mt-20`}
       >
         <h3 className="text-text text-2xl font-extrabold text-center">Dr.Name LastName</h3>
-        <ul className="flex items-center font-semibold flex-col text-sm my-5 text-text text-left">
+        <ul className="flex items-center font-semibold flex-col text-sm my-5 text-text text-left  max-w-[100%]">
           <li className="w-full flex items-center my-1 ">
             {/* <span className="flex rounded-full w-2 h-2 mr-4 bg-dark"></span> */}
             <p className="w-full h-full text-gray-500 break-words">

@@ -33,7 +33,7 @@ const TeamSwiperContainer = () => {
         </div>
       </div>
       <div
-        className="flex items-center justify-center p-3 h-max rounded-3xl mt-8 lg:mt-0"
+        className="flex items-center w-full lg:max-w-2xl justify-center p-3 h-max rounded-3xl mt-8 lg:mt-0"
         style={{
           backgroundImage:
             "linear-gradient(270deg, rgb(236, 239, 241) 0%, #fdfdfd 100%)",
