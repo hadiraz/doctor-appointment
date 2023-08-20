@@ -1,12 +1,17 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
 const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Dispatch<React.SetStateAction<boolean>> , className?: string }) => {
+  const {pathname} = useRouter();
+  useEffect(()=>{
+    setMenuStatus(false)
+  },[pathname])
   return (
     <section
       className={`w-[60vw] h-screen flex md:hidden flex-col fixed top-0 -right-[60%] bg-white transition-all duration-200 ease-in z-20 ${className}`}
     >
-      <div className="flex w-full items-center py-4 px-3">
+      <div className="flex w-full items-center py-4 px-3" onClick={()=>setMenuStatus(false)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -14,7 +19,6 @@ const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Di
           strokeWidth={1.8}
           stroke="currentColor"
           className="w-7 h-7 cursor-pointer"
-          onClick={()=>setMenuStatus(false)}
         >
           <path
             strokeLinecap="round"
@@ -29,21 +33,24 @@ const ResponsiveNav = ({ className , setMenuStatus }: { setMenuStatus : React.Di
       </div>
       <nav className="w-full h-full flex mt-3">
         <ul className="w-full h-full flex flex-col">
-          <li className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="17"
-              height="80"
-              fill="#8abd53"
-              className=" rotate-180 mr-3"
-            >
-              <path
-                fill=""
-                d="m5.396 28.424.303-.316A40.606 40.606 0 0 0 17 0v83.059A41.565 41.565 0 0 0 5.407 54.26c-6.933-7.215-6.938-18.614-.011-25.835Z"
-              />
-            </svg>
-            <Link href="/" className="flex items-center capitalize text-primary font-semibold">
+          <li className={`flex items-center my-3`}>
+            <Link href="/" className={`transition-all duration-150 ${pathname === "/" ? "ml-3 text-primary" : "text-gray-600 ml-2"} flex items-center capitalize font-semibold h-full w-full`}>
               home
+            </Link>
+          </li>
+          <li className={`flex items-center my-3`}>
+            <Link href="/appointment" className={`transition-all duration-150 ${pathname === "/appointment" ? "ml-3 text-primary" : "text-gray-600 ml-2"} flex items-center capitalize font-semibold h-full w-full`}>
+              appointment
+            </Link>
+          </li>
+          <li className={`flex items-center my-3`}>
+            <Link href="/blog" className={`transition-all duration-150 ${pathname === "/blog" ? "ml-3 text-primary" : "text-gray-600 ml-2"} flex items-center capitalize font-semibold h-full w-full`}>
+              blog
+            </Link>
+          </li>
+          <li className={`flex items-center my-3`}>
+            <Link href="/about" className={`transition-all duration-150 ${pathname === "/about" ? "ml-3 text-primary" : "text-gray-600 ml-2"} flex items-center capitalize font-semibold h-full w-full`}>
+              about us
             </Link>
           </li>
         </ul>
