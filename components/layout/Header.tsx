@@ -1,12 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "@/public/assets/logo_med.png";
 import ResponsiveNav from "./ResponsiveNav";
-
+import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { sessionCheck } from "@/lib/utils/sessionCheck";
+import ClipLoader from "react-spinners/ClipLoader";
 const Header = () => {
   const [navStatus, setNavStatus] = useState(false);
+  const userContext = useContext(AppointmentCreateContext);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setLoading(true);
+    (async () => {
+      const user = await sessionCheck();
+      userContext?.dispatch({type : "SET_PHONE" , payload : {phone : user.phone}});
+      setLoading(false);
+    })();
+  }, []);
   return (
     <header className="w-full flex justify-between items-center sticky top-0 px-4 h-16 z-10 bg-transparent backdrop-blur-sm backdrop-filter">
       <div className="flex items-center justify-center">
@@ -29,12 +41,16 @@ const Header = () => {
             <Link href="/appointment">Appointment</Link>
           </li>
           <li className="flex items-center justify-center transition-all duration-100 after:transition-all after:duration-300 hover:pb-1 mx-3 relative after:w-0 after:rounded-sm after:absolute after:h-[2px] after:bottom-0 hover:after:w-full after:bg-primary cursor-pointer">
+            <Link href="/blog">Blog</Link>
+          </li>
+          <li className="flex items-center justify-center transition-all duration-100 after:transition-all after:duration-300 hover:pb-1 mx-3 relative after:w-0 after:rounded-sm after:absolute after:h-[2px] after:bottom-0 hover:after:w-full after:bg-primary cursor-pointer">
             <Link href="/about">About</Link>
           </li>
         </ul>
       </nav>
       <div className="hidden md:flex items-center justify-center">
-        <Link href="/login">
+        {
+          loading ? <ClipLoader size={30} color="#36d7b7" /> : <Link href={`${userContext?.phone ? "/user/dashboard" : "/user/login"}`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -50,6 +66,8 @@ const Header = () => {
             />
           </svg>
         </Link>
+        }
+        
       </div>
       {navStatus && (
         <>
