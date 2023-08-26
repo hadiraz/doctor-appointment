@@ -1,7 +1,12 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import React, { useEffect, useState } from "react";
+import React, { EventHandler, useContext, useEffect, useState } from "react";
 import { UserLastReserveType } from "@/components/appointment/AppointmentRegisterCode";
 import UserLogin from "../api/user/userLogin";
+import { withIronSessionSsr } from "iron-session/next";
+import { ironLoginOptions } from "@/lib/config/iron-config";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
 type NewUserType = {
   users: {
     reservesList: UserLastReserveType[];
@@ -12,31 +17,31 @@ type NewUserType = {
     idNumber?: string;
   }[];
 };
-const Dashboard = () => {
+const Dashboard = ({ userData }: { userData: NewUserType }) => {
   const [user, setUser] = useState<NewUserType>();
+  const router = useRouter();
+  const userContext = useContext(AppointmentCreateContext)
   useEffect(() => {
-    (async () => {
-      const loginInfo: NewUserType = await fetch(
-        "http://localhost:3000/api/user/getUsers",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ phone: "09121549942" }),
-        }
-      )
-        .then((resp) => resp)
-        .then((resp) => resp.json());
-      setUser(loginInfo);
-    })();
-  }, []);
+    setUser(userData);
+  }, [userData]);
+  const logoutHandler = async () => {
+    const logout = await fetch("/api/user/userLogout");
+    if(logout.status === 200){
+      userContext?.dispatch({type : "REMOVE_PHONE"})
+      router.push("/")
+    }
+  };
   return (
     <section className="w-full max-w-7xl flex flex-col h-screen px-3 xl:px-0">
-      <p className="w-full font-bold text-2xl relative">
-        Reservation list
-        {/* <span className="flex absolute w-full "></span> */}
-      </p>
+      <div className="flex w-full items-center justify-between mb-3">
+        <p className="w-max font-bold text-2xl">Reservation list</p>
+        <span
+          onClick={logoutHandler}
+          className="flex bg-red-400 w-max text-white font-semibold rounded-xl px-2 py-1 hover:bg-red-500 transition duration-200 cursor-pointer"
+        >
+          Logout
+        </span>
+      </div>
       <div className="flex mt-5 w-full rounded-lg overflow-x-auto">
         <table className="w-full text-center capitalize rounded-lg">
           <thead className="sticky top-0 left-0 bg-white">
@@ -51,7 +56,10 @@ const Dashboard = () => {
             {user?.users[0].reservesList.map((value, key) => {
               const date = new Date(value.reservedTime);
               return (
-                <tr key={key} className="odd:bg-slate-300 hover:shadow-lg transition-all duration-150">
+                <tr
+                  key={key}
+                  className="odd:bg-slate-300 hover:shadow-lg transition-all duration-150"
+                >
                   <td className="p-2 min-w-max">
                     {value.firstName} {value.lastName}
                   </td>
@@ -81,3 +89,32 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user;
+    if (user) {
+      const userData = await fetch("http://localhost:3000/api/user/getUsers")
+        .then((resp) => resp)
+        .then((resp) => resp.json());
+      console.log(userData);
+      return {
+        props: {
+          userData: userData[0],
+        },
+      };
+    } else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/user/login",
+        },
+      };
+    }
+  },
+  {
+    cookieName: ironLoginOptions.cookieName,
+    password: ironLoginOptions.password,
+    cookieOptions: ironLoginOptions.cookieOptions,
+  }
+);

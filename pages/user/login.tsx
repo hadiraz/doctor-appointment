@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import SplitedInputs from "@/components/multipleInputs/SplitedInputs";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,12 +7,18 @@ import "react-toastify/dist/ReactToastify.css";
 import UserLoginPhoneForm from "@/components/login/UserLoginPhoneForm";
 import Doctor from "@/public/assets/images/doctor-login-min.png";
 import UserLoginCode from "@/components/login/UserLoginCode";
+import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { useRouter } from "next/router";
 const Login = () => {
   const [step, setStep] = useState(0);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [codeSubmit, setCodeSubmit] = useState(false);
-  
+  const userContext = useContext(AppointmentCreateContext);
+  const router = useRouter()
+  useEffect(()=>{
+    router.push("/user/dashboard");
+  },[userContext?.phone])
   return (
     <>
       <ToastContainer style={{ zIndex: 1000, marginTop: 30 }} limit={1} />
@@ -49,3 +55,5 @@ const Login = () => {
 };
 
 export default Login;
+
+
