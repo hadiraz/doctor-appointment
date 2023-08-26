@@ -8,7 +8,8 @@ type Data = {
 
 }
 
-export default withIronSessionApiRoute(async function UserLogin(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default withIronSessionApiRoute(UserLogin, ironLoginOptions);
+async function UserLogin(req: NextApiRequest, res: NextApiResponse<Data>) {
     let userInfo = { id: null, phone: "" };
 
     if (req.method === "POST") {
@@ -16,8 +17,8 @@ export default withIronSessionApiRoute(async function UserLogin(req: NextApiRequ
         const getUser = await db.collection("usersLogin").findOne({ "users": { $elemMatch: { "phone": req.body.phone } } }, { projection: { "_id": 0, "users.$": 1 } });
         if (getUser) {
             req.session.user = {
-                id : getUser._id ,
-                phone : req.body.phone
+                id: getUser._id,
+                phone: req.body.phone
             }
             await req.session.save()
             return res.status(200).end();
@@ -28,5 +29,4 @@ export default withIronSessionApiRoute(async function UserLogin(req: NextApiRequ
             } else return res.status(400).end()
         }
     }
-}, ironLoginOptions);
-
+}
