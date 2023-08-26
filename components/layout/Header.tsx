@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import logo from "@/public/assets/logo_med.png";
 import ResponsiveNav from "./ResponsiveNav";
-import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import { sessionCheck } from "@/lib/utils/sessionCheck";
 import ClipLoader from "react-spinners/ClipLoader";
 const Header = () => {

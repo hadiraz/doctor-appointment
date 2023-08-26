@@ -1,13 +1,10 @@
-import { connectToDatabase } from "@/lib/mongodb";
 import { SectionConfigType } from "@/pages/appointment";
 import { glassStyle } from "@/public/styles/style";
-import { Document, FindCursor, ObjectId, WithId } from "mongodb";
-import { GetServerSideProps } from "next";
+import { ObjectId } from "mongodb";
 import React, { useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
-import { start } from "repl";
 import { v4 as uuidv4 } from "uuid";
 
 export type AppointmentDataType = {

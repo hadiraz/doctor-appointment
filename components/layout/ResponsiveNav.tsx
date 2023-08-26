@@ -1,4 +1,4 @@
-import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import { sessionCheck } from "@/lib/utils/sessionCheck";
 import Link from "next/link";
 import { useRouter } from "next/router";
