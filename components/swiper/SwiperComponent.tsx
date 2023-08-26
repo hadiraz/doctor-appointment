@@ -5,7 +5,6 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import style from "@/components/swiper/swiperStyles.module.css"
 import { register } from "swiper/element/bundle";
 register();
 const SwiperComponent = ({ items }: { items: ReactElement[] }) => {
@@ -15,7 +14,7 @@ const SwiperComponent = ({ items }: { items: ReactElement[] }) => {
       spaceBetween={10}
       slidesPerView={1}
       pagination
-      className={`w-full ${style.swiperButtonNext}`}
+      className={`w-full`}
       onSlideChange={() => console.log("slide change")}
     >
       {items.map((value, key) => (
