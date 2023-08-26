@@ -20,12 +20,12 @@ export default async function handler(
         const timesUpdate = await db.collection("reservation").updateOne({ "_id": new ObjectId(req.body.reservedTimes.id) }, { $push: { "reservedTimes": req.body.reservedTimes.data } });
         let status = null;
         if (timesUpdate.acknowledged) {
-            const getUsers: WithId<Document> | null = await db.collection("usersLogin").findOne({ "users": { $elemMatch: { "phone": req.body.userData.phone } } }, { projection: { "_id": 0, "users.$": 1 } });
-            if (!getUsers) {
+            const getUser: WithId<Document> | null = await db.collection("usersLogin").findOne({ "users": { $elemMatch: { "phone": req.body.userData.phone } } }, { projection: { "_id": 0, "users.$": 1 } });
+            if (!getUser) {
                 const writeUser = await db.collection("usersLogin").updateOne({}, { $push: { "users": { _id: new ObjectId(), ...req.body.userData, reservesList: [req.body.userData.reservesList] } } });
                 writeUser.acknowledged ? status = true : status = false
             } else {
-                const updateUser = await db.collection("usersLogin").updateOne({ "users._id": getUsers.users[0]._id }, {
+                const updateUser = await db.collection("usersLogin").updateOne({ "users._id": getUser.users[0]._id }, {
                     $push: {
                         "users.$.reservesList": req.body.userData.reservesList
                     }
