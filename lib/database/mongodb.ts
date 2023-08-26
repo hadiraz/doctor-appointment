@@ -34,7 +34,6 @@ export async function connectToDatabase() {
   // Connect to cluster
   let client = new MongoClient(MONGODB_URI);
   await client.connect();
-  console.log("kkkk")
   let db = client.db(MONGODB_DB);
 
   // set cache
