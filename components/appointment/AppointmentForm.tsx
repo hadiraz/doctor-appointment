@@ -18,7 +18,7 @@ export type AppointmentDataType = {
     step: number;
     offDays: number[] | null;
   };
-  reservedTimes: number[] | null;
+  reservedTimes: string[] | null;
 };
 type DateObjectType = {
   day: number;
@@ -75,7 +75,6 @@ const AppointmentForm = ({
     })();
   }, []);
   useEffect(() => {
-    console.log(data , "hhihihihiooo")
     if (data.timeSettings.step && currentTime) {
       const daysCounter = () => {
         let days: DateObjectType[] = [];
@@ -96,7 +95,18 @@ const AppointmentForm = ({
       daysCounter();
     }
   }, [data.timeSettings.step && currentTime]);
-
+  const formatDate = (value : string) => {
+    const formattedDate = new Date(value).toLocaleString('en-US', {
+      timeZone: 'your-desired-timezone',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    });
+    return formattedDate
+  }
   const timeCounter = (date: number) => {
     const startTime = date + data.timeSettings.startTime * 60 * 60 * 1000;
     const endTime = date + data.timeSettings.endTime * 60 * 60 * 1000;
@@ -104,9 +114,12 @@ const AppointmentForm = ({
     let newTime = 0;
     let list: number[] = [];
     while (endTime > newTime) {
-      newTime = startTime + round * data.timeSettings.step * 60 * 1000;
-      !data.reservedTimes?.includes(newTime) && list.push(newTime);
-      round += 1;
+      newTime = startTime + (round * data.timeSettings.step * 60 * 1000);
+      const newTimeISO = new Date(newTime).toISOString();
+        if(!data.reservedTimes?.includes(newTimeISO)){
+          list.push(newTime);
+        }
+      round ++
     }
     setTimeList(list);
   };
@@ -148,7 +161,7 @@ const AppointmentForm = ({
       },
       body: JSON.stringify({
         reservedTimes: {
-          data: selectedDate.time,
+          data: new Date(selectedDate.time),
           id: data?._id,
         },
         userData: {
@@ -159,7 +172,7 @@ const AppointmentForm = ({
               lastName,
               idNumber,
               submitTime: new Date(),
-              reservedTime: selectedDate.time,
+              reservedTime: new Date(selectedDate.time),
             },
         },
       }),
