@@ -6,7 +6,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironLoginOptions } from "@/lib/config/iron-config";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { AppointmentCreateContext } from "@/context/user/LoginContext";
 type NewUserType = {
   users: {
     reservesList: UserLastReserveType[];

@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import UserLoginPhoneForm from "@/components/login/UserLoginPhoneForm";
 import Doctor from "@/public/assets/images/doctor-login-min.png";
 import UserLoginCode from "@/components/login/UserLoginCode";
-import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import { useRouter } from "next/router";
 const Login = () => {
   const [step, setStep] = useState(0);

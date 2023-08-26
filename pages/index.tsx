@@ -4,7 +4,7 @@ import Image from "next/image";
 import Nuclear from "@/public/assets/images/nuclear-image.jpg";
 import Services from "@/components/mainPage/Services";
 import { useContext, useEffect } from "react";
-import { AppointmentCreateContext } from "@/context/appointment/LoginContext";
+import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import Link from "next/link";
 export default function Home() {
   return (

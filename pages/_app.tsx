@@ -1,7 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import AppointmentContext, {
   AppointmentCreateContext, setPhoneNumberContext,
-} from "@/context/appointment/LoginContext";
+} from "@/context/user/LoginContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useContext, useEffect } from "react";

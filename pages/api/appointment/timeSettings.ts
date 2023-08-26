@@ -1,5 +1,5 @@
 
-import { connectToDatabase } from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/database/mongodb';
 import { Document, WithId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next'
 type Data = {

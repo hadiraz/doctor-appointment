@@ -3,7 +3,7 @@ import React from "react";
 import Photo from "@/public/assets/images/nuclear-image.jpg";
 import Hospital from "@/public/assets/images/hospital-services.jpg";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/lib/database/mongodb";
 import { BlogPostType } from "@/pages/blog/index";
 
 const BlogPost = ({ postData }: { postData: string }) => {

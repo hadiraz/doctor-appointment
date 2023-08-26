@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/lib/database/mongodb";
 import { BlogPostType } from "@/pages/blog";
 import { Document, WithId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";

@@ -1,5 +1,5 @@
 import { UserLastReserveType } from '@/components/appointment/AppointmentRegisterCode';
-import { connectToDatabase } from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/database/mongodb';
 import { Document, ObjectId, WithId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next'
 type Data = {

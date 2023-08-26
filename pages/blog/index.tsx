@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Hospital from "@/public/assets/images/hospital-services.jpg";
 import TitleIconContainer from "@/components/shared/TitleIconContainer";
 import { GetStaticProps, GetServerSideProps } from "next/types";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/lib/database/mongodb";
 import { Document, WithId } from "mongodb";
 import BlogItems from "@/components/blog/BlogItems";
 export type BlogPostType = {
