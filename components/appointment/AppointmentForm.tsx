@@ -48,7 +48,7 @@ const AppointmentForm = ({
     },
     reservedTimes: null,
   });
-  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [todayTime, setTodayTime] = useState<number>(0);
   useEffect(() => {
     (async () => {
       const getData: AppointmentDataType[] = await fetch(
@@ -68,59 +68,91 @@ const AppointmentForm = ({
       const result =
         time -
         (hourToMilSec + minToMilSec + secToMilSec + date.getMilliseconds());
-      setCurrentTime(result);
+      setTodayTime(result);
     })();
   }, []);
   useEffect(() => {
-    if (data.timeSettings.step && currentTime) {
+    if (data.timeSettings.step && todayTime) {
       const daysCounter = () => {
         let days: DateObjectType[] = [];
-        let i = 1;
-        for (i; i <= 7; i++) {
-          const dayString = currentTime + i * 24 * 60 * 60 * 1000;
+        let i = 0;
+        for (i; i <= 6; i++) {
+          const dayString = todayTime + i * 24 * 60 * 60 * 1000;
           const dateObj = new Date(dayString);
-          days[i] = {
-            day: dateObj.getDay(),
-            time: dateObj.getTime(),
-            date: `${dateObj.getFullYear()}-${
-              dateObj.getMonth() + 1
-            }-${dateObj.getDate()}`,
-          };
+          if (!data.timeSettings.offDays?.includes(dateObj.getDay())) {
+            days[i] = {
+              day: dateObj.getDay(),
+              time: dateObj.getTime(),
+              date: `${dateObj.getFullYear()}-${
+                dateObj.getMonth() + 1
+              }-${dateObj.getDate()}`,
+            };
+          }
         }
         setDaysList(days);
       };
       daysCounter();
     }
-  }, [data.timeSettings.step && currentTime]);
-  const formatDate = (value : string) => {
-    const formattedDate = new Date(value).toLocaleString('en-US', {
-      timeZone: 'your-desired-timezone',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
+  }, [data.timeSettings.step && todayTime]);
+  const formatDate = (value: string) => {
+    const formattedDate = new Date(value).toLocaleString("en-US", {
+      timeZone: "your-desired-timezone",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
     });
-    return formattedDate
-  }
+    return formattedDate;
+  };
   const timeCounter = (date: number) => {
-    const startTime = date + data.timeSettings.startTime * 60 * 60 * 1000;
-    const endTime = date + data.timeSettings.endTime * 60 * 60 * 1000;
+    const startWorkTime = date + data.timeSettings.startTime * 60 * 60 * 1000;
+    const endWorkTime = date + data.timeSettings.endTime * 60 * 60 * 1000;
     let round = 0;
     let newTime = 0;
     let list: number[] = [];
-    while (endTime > newTime) {
-      newTime = startTime + (round * data.timeSettings.step * 60 * 1000);
+    while (endWorkTime > newTime) {
+      newTime = startWorkTime + round * data.timeSettings.step * 60 * 1000;
       const newTimeISO = new Date(newTime).toISOString();
-        if(!data.reservedTimes?.includes(newTimeISO)){
+      if (!data.reservedTimes?.includes(newTimeISO)) {
+        if (timeChecker(newTime)) {
           list.push(newTime);
+          console.log("jiiiood");
         }
-      round ++
+      }
+      round++;
     }
     setTimeList(list);
   };
-
+  const timeChecker = (time: number) => {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    const currentMinute = currentTime.getMinutes();
+    const currentDate = `${currentTime.getFullYear()}-${
+      currentTime.getMonth() + 1
+    }-${currentTime.getDate()}`;
+    const startTime = new Date(time);
+    const startDate = `${startTime.getFullYear()}-${
+      startTime.getMonth() + 1
+    }-${startTime.getDate()}`;
+    const startHour = startTime.getHours();
+    const startMinutes = startTime.getMinutes();
+    if (startHour < data.timeSettings.endTime) {
+      if (currentDate === startDate) {
+        if (currentTime.getTime() < startTime.getTime()) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    } else return false;
+  };
+  useEffect(() => {
+    if (timeList.length) {
+      timeList.map((value, key) => {});
+    }
+  }, [timeList]);
   useEffect(() => {
     timeCounter(selectedDate.date);
   }, [selectedDate.date]);
@@ -163,14 +195,13 @@ const AppointmentForm = ({
         },
         userData: {
           phone,
-          reservesList:
-            {
-              firstName,
-              lastName,
-              idNumber,
-              submitTime: new Date(),
-              reservedTime: new Date(selectedDate.time),
-            },
+          reservesList: {
+            firstName,
+            lastName,
+            idNumber,
+            submitTime: new Date(),
+            reservedTime: new Date(selectedDate.time),
+          },
         },
       }),
     });
@@ -246,28 +277,28 @@ const AppointmentForm = ({
       </div>
       <div className="grid grid-cols-1 2xs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2 w-fit flex-wrap mt-5">
         {timeList.map((value, key) => {
-          const startDate = new Date(value);
-          const endDate = new Date(value + data.timeSettings.step * 60 * 1000);
-          if (startDate.getHours() < data.timeSettings.endTime) {
-            return (
-              <div
-                key={uuidv4()}
-                onClick={() => handleTimeSelect(value)}
-                style={{ ...glassStyle }}
-                className={`w-[100px] h-[45px] flex items-center justify-center rounded-2xl ${
-                  selectedDate.time === value
-                    ? "border-white border-[2px] !bg-primary text-white font-bold"
-                    : "text-text"
-                } cursor-pointer transition-all duration-200 text-sm`}
-              >
-                {`${startDate.getHours()}${
-                  startDate.getMinutes() ? ":" + startDate.getMinutes() : ""
-                } - ${endDate.getHours()}${
-                  endDate.getMinutes() ? ":" + endDate.getMinutes() : ""
-                }`}
-              </div>
-            );
-          }
+          const startTime = new Date(value);
+          const startHour = startTime.getHours();
+          const startMinutes = startTime.getMinutes();
+          const endTime = new Date(value + data.timeSettings.step * 60 * 1000);
+          const endHours = new Date(endTime).getHours();
+          const endMinutes = new Date(endTime).getMinutes();
+          return (
+            <div
+              key={uuidv4()}
+              onClick={() => handleTimeSelect(value)}
+              style={{ ...glassStyle }}
+              className={`w-[100px] h-[45px] flex items-center justify-center rounded-2xl ${
+                selectedDate.time === value
+                  ? "border-white border-[2px] !bg-primary text-white font-bold"
+                  : "text-text"
+              } cursor-pointer transition-all duration-200 text-sm`}
+            >
+              {`${startHour}${
+                startHour ? ":" + startMinutes : ""
+              } - ${endHours}${endMinutes ? ":" + endMinutes : ""}`}
+            </div>
+          );
         })}
       </div>
       <div className="flex w-full justify-between items-center mt-6">
