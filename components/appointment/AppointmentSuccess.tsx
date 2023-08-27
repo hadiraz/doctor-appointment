@@ -7,7 +7,7 @@ const AppointmentSuccess = () => {
     <div className="flex justify-center flex-col items-center">
       <svg
         // fill="#000000"
-        className=" fill-green-800 rounded-full shadow-2xl animate-pulse animate-bounce"
+        className=" fill-green-800 rounded-full shadow-2xl animate-bounce"
         height="120px"
         width="120px"
         version="1.1"

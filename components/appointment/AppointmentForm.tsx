@@ -52,7 +52,7 @@ const AppointmentForm = ({
   useEffect(() => {
     (async () => {
       const getData: AppointmentDataType[] = await fetch(
-        "http://localhost:3000/api/appointment/timeSettings"
+        `${process.env.DOMAIN}/api/appointment/timeSettings`
       )
         .then((res) => res)
         .then((res) => res.json());

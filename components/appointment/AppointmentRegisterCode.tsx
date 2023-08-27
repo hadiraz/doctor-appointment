@@ -17,7 +17,7 @@ export type UserLastReserveType = {
   firstName: string;
   lastName: string;
   idNumber: string;
-  reservedTime: number;
+  reservedTime: string;
   submitTime: number;
 };
 type UserType = {
@@ -55,7 +55,7 @@ const AppointmentRegisterCode = ({
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     const getUser: UserType = await fetch(
-      `http://localhost:3000/api/user/getUsers`,
+      `${process.env.DOMAIN}/api/user/getUsers`,
       {
         method: "POST",
         body: JSON.stringify({ phone: reserveStates.reserveData.phone }),
