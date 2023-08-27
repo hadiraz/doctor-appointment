@@ -1,34 +1,29 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import React, { EventHandler, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { UserLastReserveType } from "@/components/appointment/AppointmentRegisterCode";
-import UserLogin from "../api/user/userLogin";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironLoginOptions } from "@/lib/config/iron-config";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { AppointmentCreateContext } from "@/context/user/LoginContext";
+
 type NewUserType = {
-  users: {
-    reservesList: UserLastReserveType[];
-    id: number;
-    firstName?: string;
-    lastName?: string;
-    phone: string;
-    idNumber?: string;
-  }[];
+  reservesList: UserLastReserveType[];
+  id?: Object;
+  firstName?: string;
+  lastName?: string;
+  phone: string;
+  idNumber?: string;
 };
-const Dashboard = ({ userData }: { userData: NewUserType }) => {
-  const [user, setUser] = useState<NewUserType>();
+
+const Dashboard = ({ user }: { user: string }) => {
+  const parsedUser: NewUserType = JSON.parse(user);
   const router = useRouter();
-  const userContext = useContext(AppointmentCreateContext)
-  useEffect(() => {
-    setUser(userData);
-  }, [userData]);
+  const userContext = useContext(AppointmentCreateContext);
+
   const logoutHandler = async () => {
     const logout = await fetch("/api/user/userLogout");
-    if(logout.status === 200){
-      userContext?.dispatch({type : "REMOVE_PHONE"})
-      router.push("/")
+    if (logout.status === 200) {
+      userContext?.dispatch({ type: "REMOVE_PHONE" });
+      router.push("/");
     }
   };
   return (
@@ -53,34 +48,34 @@ const Dashboard = ({ userData }: { userData: NewUserType }) => {
             </tr>
           </thead>
           <tbody>
-            {user?.users[0].reservesList.map((value, key) => {
-              const date = new Date(value.reservedTime);
-              return (
-                <tr
-                  key={key}
-                  className="odd:bg-slate-300 hover:shadow-lg transition-all duration-150"
-                >
-                  <td className="p-2 min-w-max">
-                    {value.firstName} {value.lastName}
-                  </td>
-                  <td className="p-2 min-w-max">
-                    <span className="mr-1">
-                      {date.getFullYear()}/{date.getMonth() + 1}/
-                      {date.getDate()}
-                    </span>
-                    -
-                    <span className="ml-1">
-                      {date.getHours()}:
-                      {date.getMinutes().toString().length < 2
-                        ? "00"
-                        : date.getMinutes()}
-                    </span>
-                  </td>
-                  <td className="p-2 min-w-max">{value.idNumber}</td>
-                  <td className="p-2 min-w-max">1548</td>
-                </tr>
-              );
-            })}
+            {parsedUser.reservesList.length
+              ? parsedUser.reservesList.map((value, key) => {
+                  const date = new Date(value.reservedTime);
+                  return (
+                    <tr
+                      key={key}
+                      className="odd:bg-slate-300 hover:shadow-lg transition-all duration-150"
+                    >
+                      <td className="p-2 min-w-max">
+                        {value.firstName} {value.lastName}
+                      </td>
+                      <td className="p-2 min-w-max">
+                        <span className="mr-1">
+                          {date.getFullYear()}/{date.getMonth() + 1}/
+                          {date.getDate()}
+                        </span>
+                        -
+                        <span suppressHydrationWarning className="ml-1">
+                          {date.getHours()}:
+                          {date.getMinutes().toString().padStart(2, "0")}
+                        </span>
+                      </td>
+                      <td className="p-2 min-w-max">{value.idNumber}</td>
+                      <td className="p-2 min-w-max">1548</td>
+                    </tr>
+                  );
+                })
+              : <tr className="text-center"><td colSpan={4} className="text-center w-full pt-3">No items found!</td></tr>}
           </tbody>
         </table>
       </div>
@@ -94,13 +89,17 @@ export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const user = req.session.user;
     if (user) {
-      const userData = await fetch("http://localhost:3000/api/user/getUsers")
-        .then((resp) => resp)
-        .then((resp) => resp.json());
-      console.log(userData);
+      const userData = await fetch(`${process.env.DOMAIN}/api/user/getUsers`, {
+        method: "post",
+        body: JSON.stringify({ phone: user.phone }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const userDataParsed = await userData.json();
       return {
         props: {
-          userData: userData[0],
+          user: JSON.stringify(userDataParsed.users[0]),
         },
       };
     } else {
