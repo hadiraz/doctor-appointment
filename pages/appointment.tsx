@@ -6,7 +6,6 @@ import AppointmentSuccess from "@/components/appointment/AppointmentSuccess";
 import { Document, FindCursor, WithId } from "mongodb";
 import React, { useEffect, useRef, useState } from "react";
 import type {GetServerSideProps , InferGetServerSidePropsType} from "next"
-import { time } from "console";
 export type SectionConfigType = {
   reserveStates: ReservedSatesType;
   sectionSelected: number;

@@ -4,7 +4,6 @@ import { Document, WithId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    console.log(req)
     if (req.method === "POST") {
         const { db } = await connectToDatabase();
         if (req.body.slug) {

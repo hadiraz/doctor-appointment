@@ -27,7 +27,6 @@ const UserLoginCode = ({
       },
       body: JSON.stringify({ phone: phoneNumber.phone }),
     });
-    console.log(sendData.status)
     if (sendData.status === 200) {
       router.replace("/user/dashboard");
     } else {

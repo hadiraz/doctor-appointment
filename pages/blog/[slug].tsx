@@ -85,7 +85,6 @@ export default BlogPost;
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const { db } = await connectToDatabase();
   const allSlugs = await db.collection("blog").distinct("slug");
-  console.log(allSlugs);
   return {
     paths: allSlugs.map((value) => ({
       params: {

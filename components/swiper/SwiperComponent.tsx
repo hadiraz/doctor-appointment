@@ -15,7 +15,6 @@ const SwiperComponent = ({ items }: { items: ReactElement[] }) => {
       slidesPerView={1}
       pagination
       className={`w-full`}
-      onSlideChange={() => console.log("slide change")}
     >
       {items.map((value, key) => (
         <SwiperSlide className="" key={value.key}>{value}</SwiperSlide>

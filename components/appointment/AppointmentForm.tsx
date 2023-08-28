@@ -118,7 +118,6 @@ const AppointmentForm = ({
       if (!data.reservedTimes?.includes(newTimeISO)) {
         if (timeChecker(newTime)) {
           list.push(newTime);
-          console.log("jiiiood");
         }
       }
       round++;

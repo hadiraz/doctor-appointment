@@ -18,7 +18,6 @@ export type BlogPostType = {
   created_date: string;
 };
 const Index = ({posts}: {posts:string}) => {
-  console.log(JSON.parse(posts))
   return (
     <section className="flex flex-col w-full max-w-7xl">
       {/* icon must be added */}
@@ -52,7 +51,6 @@ export const getStaticProps: GetStaticProps<{
 }> = async () => {
   const { db } = await connectToDatabase();
   const allPosts = await db.collection("blog").find({}).toArray();
-  console.log(allPosts)
     return {
       props: {
         posts: JSON.stringify(allPosts),

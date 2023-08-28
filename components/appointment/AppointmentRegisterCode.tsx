@@ -55,7 +55,7 @@ const AppointmentRegisterCode = ({
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     const getUser: UserType = await fetch(
-      `${process.env.DOMAIN}/api/user/getUsers`,
+      `/api/user/getUsers`,
       {
         method: "POST",
         body: JSON.stringify({ phone: reserveStates.reserveData.phone }),
@@ -66,7 +66,6 @@ const AppointmentRegisterCode = ({
     )
       .then((resp) => resp)
       .then((resp) => resp.json());
-   
       if (getUser) {
       const { _id, reservesList } = getUser;
       reserveStates.setReserveData((prev) => {

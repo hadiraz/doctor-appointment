@@ -19,6 +19,5 @@ export default async function handler(
 
     const { db } = await connectToDatabase();
     const getData : WithId<Document>[] = await db.collection("reservation").find().toArray();
-    console.log(getData)
     return res.status(200).json(getData)
 }

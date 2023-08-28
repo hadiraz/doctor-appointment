@@ -29,7 +29,6 @@ const reducer : React.Reducer<LoginContextType , Action> = (
   state: LoginContextType = initialState,
   { type, payload }: Action
 ) => {
-  console.log("type")
   switch (type) {
     case "SET_PHONE":
       if (payload?.phone) return{ ...state, phone : payload.phone };

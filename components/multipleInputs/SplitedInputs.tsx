@@ -100,7 +100,6 @@ const SplitedInputs = ({
   ) => {
     let enteredCharacter: string = digit;
     const checkDigit = regex.test(enteredCharacter);
-    console.log(checkDigit)
     const nextSiblingElement = items[id + 1]?.reference.current;
     if (!checkDigit) {
       enteredCharacter = "";

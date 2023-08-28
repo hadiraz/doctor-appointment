@@ -29,11 +29,9 @@ const AppointmentPhoneInput = ({
     } else if (values.phone.length !== 11 || !/^09\d/.test(values.phone)) {
       errors.phone = "phone number is not correct";
     }
-    // console.log(errors);
     return errors
   };
   const handleSubmit = (value : FormTypes) => {
-    // console.log(value , 5);
     let digits = String(Math.floor(Math.random()*100000));
     while (digits.length !== 5){
       digits = String(Math.floor(Math.random()*100000));
