@@ -278,10 +278,10 @@ const AppointmentForm = ({
         {timeList.map((value, key) => {
           const startTime = new Date(value);
           const startHour = startTime.getHours();
-          const startMinutes = startTime.getMinutes();
+          const startMinutes = String(startTime.getMinutes()).padStart(2 , "0");
           const endTime = new Date(value + data.timeSettings.step * 60 * 1000);
           const endHours = new Date(endTime).getHours();
-          const endMinutes = new Date(endTime).getMinutes();
+          const endMinutes = String(new Date(endTime).getMinutes()).padStart(2 , "0");
           return (
             <div
               key={uuidv4()}
