@@ -1,7 +1,7 @@
 import React from "react";
 import MedicalBanner from "@/public/assets/images/medical.png";
 import Image from "next/image";
-import Background from "@/public/assets/images/Group 607.png"
+import Background from "@/public/assets/images/bg-line.png"
 const MainPageBanner = () => {
   return (
     <section className="flex flex-col items-center justify-center relative w-full max-w-7xl h-[88vh] md:flex-row md:h-auto">
