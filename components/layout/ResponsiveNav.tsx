@@ -28,7 +28,7 @@ const ResponsiveNav = ({
   }, [pathname]);
   return (
     <section
-      className={`w-[60vw] h-screen flex md:hidden flex-col fixed top-0 -right-[60%] bg-white transition-all duration-200 ease-in z-20 ${className}`}
+      className={`w-[60vw] h-screen flex md:hidden flex-col fixed top-0 -right-full bg-white transition-all duration-200 ease-in z-20 ${className}`}
     >
       <div
         className="flex w-full items-center py-4 px-3"

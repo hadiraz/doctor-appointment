@@ -6,8 +6,9 @@ import ResponsiveNav from "./ResponsiveNav";
 import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import { sessionCheck } from "@/lib/utils/sessionCheck";
 import ClipLoader from "react-spinners/ClipLoader";
-const Header = () => {
-  const [navStatus, setNavStatus] = useState(false);
+import { LayoutContext } from "./Layout";
+const Header = ({navStatus , setNavStatus} : { setNavStatus: React.Dispatch<React.SetStateAction<boolean>>; navStatus: boolean; }) => {
+  const layoutContext = useContext(LayoutContext)
   const userContext = useContext(AppointmentCreateContext);
   const [loading, setLoading] = useState(false);
 
@@ -69,20 +70,14 @@ const Header = () => {
         }
         
       </div>
-      {navStatus && (
+      {navStatus ? (
         <>
           <div
-            className="flex w-screen h-screen absolute top-0 left-0 backdrop-blur-sm"
+            className="flex w-screen h-screen fixed top-0 left-0 backdrop-blur-sm"
             onClick={() => setNavStatus(false)}
           ></div>
         </>
-      )}
-      <ResponsiveNav
-        setMenuStatus={setNavStatus}
-        className={`${
-          navStatus && "!right-0"
-        } transition-all duration-150`}
-      />
+      ) : ""}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
