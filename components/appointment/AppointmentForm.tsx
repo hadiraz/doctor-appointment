@@ -3,6 +3,7 @@ import { glassStyle } from "@/public/styles/style";
 import { ObjectId } from "mongodb";
 import React, { useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -181,7 +182,7 @@ const AppointmentForm = ({
         ...reserveStates.reserveData,
         reservedDate: selectedDate.time,
       });
-
+      setLoading(true)
     const sendReserveData = await fetch("/api/appointment/setAppointment", {
       method: "POST",
       headers: {
@@ -204,6 +205,7 @@ const AppointmentForm = ({
         },
       }),
     });
+    setLoading(false)
     sendReserveData.status === 200
       ? setSectionSelected(4)
       : toast.error("something went wrong!", {
@@ -278,10 +280,13 @@ const AppointmentForm = ({
         {timeList.map((value, key) => {
           const startTime = new Date(value);
           const startHour = startTime.getHours();
-          const startMinutes = String(startTime.getMinutes()).padStart(2 , "0");
+          const startMinutes = String(startTime.getMinutes()).padStart(2, "0");
           const endTime = new Date(value + data.timeSettings.step * 60 * 1000);
           const endHours = new Date(endTime).getHours();
-          const endMinutes = String(new Date(endTime).getMinutes()).padStart(2 , "0");
+          const endMinutes = String(new Date(endTime).getMinutes()).padStart(
+            2,
+            "0"
+          );
           return (
             <div
               key={uuidv4()}
@@ -311,7 +316,7 @@ const AppointmentForm = ({
           disabled={!selectedDate.date || !selectedDate.time ? true : false}
           className=" disabled:opacity-70 opacity-100 rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg"
         >
-          Submit
+          {loading ? <ClipLoader size={32} /> : "Submit"}
         </button>
       </div>
     </form>

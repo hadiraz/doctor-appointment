@@ -12,6 +12,7 @@ import { glassStyle } from "@/public/styles/style";
 import { Formik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from "react-spinners";
 
 export type UserLastReserveType = {
   firstName: string;
@@ -34,6 +35,7 @@ const AppointmentRegisterCode = ({
   const [submitStatus, setSubmitStatus] = useState<boolean>(true);
   const [error, setError] = useState<string>();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     toast("your code is : " + reserveStates.reserveData.authDigits, {
@@ -54,38 +56,37 @@ const AppointmentRegisterCode = ({
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    const getUser: UserType = await fetch(
-      `/api/user/getUsers`,
-      {
-        method: "POST",
-        body: JSON.stringify({ phone: reserveStates.reserveData.phone }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    setLoading(true);
+    const getUser: UserType = await fetch(`/api/user/getUsers`, {
+      method: "POST",
+      body: JSON.stringify({ phone: reserveStates.reserveData.phone }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((resp) => resp)
       .then((resp) => resp.json());
-      if (getUser) {
+    setLoading(false);
+    if (getUser) {
       const { _id, reservesList } = getUser;
       reserveStates.setReserveData((prev) => {
         if (reservesList) {
           return {
             ...prev,
-            id : _id,
+            id: _id,
             reservesList,
           };
         } else {
           return {
             ...prev,
-            id : _id,
+            id: _id,
             reservesList: [],
           };
         }
       });
     } else {
       reserveStates.setReserveData((prev) => {
-        return { ...prev  , reservesList: [] };
+        return { ...prev, reservesList: [] };
       });
     }
     stringCode === reserveStates.reserveData.authDigits
@@ -134,7 +135,7 @@ const AppointmentRegisterCode = ({
               disabled={submitStatus}
               className="opacity-100 disabled:opacity-70 rounded-2xl font-bold px-5 py-2 bg-primary w-fit text-white mt-5 shadow-lg"
             >
-              Next
+              {loading ? <ClipLoader size={32} /> : "Enter"}
             </button>
           </div>
         </form>

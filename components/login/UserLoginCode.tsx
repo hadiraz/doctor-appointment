@@ -3,6 +3,7 @@ import SplitedInputs from "../multipleInputs/SplitedInputs";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import {atom, useRecoilState} from 'recoil';
+import { ClipLoader } from "react-spinners";
 
 const UserLoginCode = ({
   phoneNumber,
@@ -17,9 +18,11 @@ const UserLoginCode = ({
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const router = useRouter();
-
+  const [loading , setLoading] = useState(false)
+  const [codeSubmit, setCodeSubmit] = useState(false);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const sendData = await fetch("/api/user/userLogin", {
       method: "POST",
       headers: {
@@ -27,6 +30,7 @@ const UserLoginCode = ({
       },
       body: JSON.stringify({ phone: phoneNumber.phone }),
     });
+    setLoading(false)
     if (sendData.status === 200) {
       router.replace("/user/dashboard");
     } else {
@@ -42,7 +46,6 @@ const UserLoginCode = ({
       });
     }
   };
-  const [codeSubmit, setCodeSubmit] = useState(false);
   useEffect(() => {
     code.code.length === 5 &&
       toast(`Your code is: ${code.code}`, {
@@ -88,7 +91,7 @@ const UserLoginCode = ({
             codeSubmit ? "opacity-70" : "opacity-100"
           }`}
         >
-          Enter
+          {loading ? <ClipLoader size={32} /> : "Enter"} 
         </button>
       </div>
     </form>
