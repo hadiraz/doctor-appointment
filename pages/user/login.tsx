@@ -9,15 +9,18 @@ import Doctor from "@/public/assets/images/doctor-login-min.png";
 import UserLoginCode from "@/components/login/UserLoginCode";
 import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import { useRouter } from "next/router";
+import { ClipLoader } from "react-spinners";
 const Login = () => {
   const [step, setStep] = useState(0);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [codeSubmit, setCodeSubmit] = useState(false);
+  const [loading , setLoading] = useState(true)
   const userContext = useContext(AppointmentCreateContext);
   const router = useRouter()
   useEffect(()=>{
-    router.push("/user/dashboard");
+      router.push("/user/dashboard");
+    setLoading(false)
   },[userContext?.phone])
   return (
     <>
@@ -33,14 +36,16 @@ const Login = () => {
             <Image src={Doctor} alt="Image" width={200} height={200} />
           </div>
         </div>
-        <section className="flex min-w-[250px] max-w-[400px] absolute w-full mx-3 md:w-1/3 flex-col md:right-[19%] rounded-xl p-8 bg-white">
-          {step === 0 && (
+        <section className={`flex min-w-[250px] max-w-[400px] absolute w-full mx-3 md:w-1/3 flex-col md:right-[19%] rounded-xl p-8 bg-white justify-center ${loading && "items-center"}`}>
+          {
+            loading ? <ClipLoader size={50} /> : step === 0 && (
             <UserLoginPhoneForm
               phoneNumber={{ phone, setPhone }}
               setStep={setStep}
               setCode={setCode}
             />
-          )}
+          )
+          }
           {step === 1 && (
             <UserLoginCode
               phoneNumber={{ phone, setPhone }}
