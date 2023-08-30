@@ -6,9 +6,13 @@ import Services from "@/components/mainPage/Services";
 import { useContext, useEffect } from "react";
 import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import Link from "next/link";
+import Head from "next/head"
 export default function Home() {
   return (
     <section className="flex w-full flex-col items-center min-h-screen max-w-7xl px-3">
+      <Head>
+        <title>Doctor Appointment</title>
+      </Head>
       <MainPageBanner />
       <TeamSwiperContainer />
       <section

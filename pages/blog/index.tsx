@@ -5,6 +5,8 @@ import { GetStaticProps, GetServerSideProps } from "next/types";
 import { connectToDatabase } from "@/lib/database/mongodb";
 import { Document, WithId } from "mongodb";
 import BlogItems from "@/components/blog/BlogItems";
+import Head from "next/head"
+
 export type BlogPostType = {
   _id: object;
   author: {
@@ -21,6 +23,11 @@ const Index = ({posts}: {posts:string}) => {
   return (
     <section className="flex flex-col w-full max-w-7xl">
       {/* icon must be added */}
+      <Head>
+        <title>
+          Blog
+        </title>
+      </Head>
       <div className="w-full flex items-center mb-10 px-5">
         <TitleIconContainer>
           <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">

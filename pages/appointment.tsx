@@ -6,6 +6,8 @@ import AppointmentSuccess from "@/components/appointment/AppointmentSuccess";
 import { Document, FindCursor, WithId } from "mongodb";
 import React, { useEffect, useRef, useState } from "react";
 import type {GetServerSideProps , InferGetServerSidePropsType} from "next"
+import Head from "next/head"
+
 export type SectionConfigType = {
   reserveStates: ReservedSatesType;
   sectionSelected: number;
@@ -41,6 +43,11 @@ const Appointment = () => {
   }, [sectionSelected]);
   return (
     <section className="flex flex-col items-center w-full sm:max-w-2xl min-h-screen bg-transparent rounded-xl px-2 relative z-[2]">
+      <Head>
+        <title>
+          Appointment
+        </title>
+      </Head>
       <div className="hidden sm:flex w-full items-center">
         <div className="flex flex-col items-center justify-center relative">
           <span

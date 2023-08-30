@@ -10,6 +10,8 @@ import UserLoginCode from "@/components/login/UserLoginCode";
 import { AppointmentCreateContext } from "@/context/user/LoginContext";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
+import Head from "next/head"
+
 const Login = () => {
   const [step, setStep] = useState(0);
   const [phone, setPhone] = useState("");
@@ -24,6 +26,9 @@ const Login = () => {
   },[userContext?.phone])
   return (
     <>
+    <Head>
+      <title>Login/Register</title>
+    </Head>
       <ToastContainer style={{ zIndex: 1000, marginTop: 30 }} limit={1} />
       <section className="flex w-full h-screen relative items-center justify-center md:justify-between bg-gray-100">
         <div className="hidden md:flex w-2/3 items-center relative h-full bg-primary rounded-tr-[30px] rounded-br-[30px]">

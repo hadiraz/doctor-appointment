@@ -5,12 +5,19 @@ import Hospital from "@/public/assets/images/hospital-services.jpg";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { connectToDatabase } from "@/lib/database/mongodb";
 import { BlogPostType } from "@/pages/blog/index";
+import {useRouter} from "next/router"
+import Head from "next/head"
 
 const BlogPost = ({ postData }: { postData: string }) => {
   const {title , body , images} : BlogPostType = JSON.parse(postData);
-  
+  const router = useRouter()
   return (
     <section className="flex flex-col w-full min-h-full max-w-7xl px-3">
+      <Head>
+        <title>
+          {router.query.slug}
+        </title>
+      </Head>
       <Image
         src={images.length ? images[0] : Photo}
         alt="photo"

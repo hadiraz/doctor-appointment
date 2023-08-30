@@ -1,9 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import TestImage from "@/public/assets/images/hospital-services.jpg";
+import Head from "next/head"
+
 const About = () => {
   return (
     <section className="w-full max-w-7xl min-h-screen">
+      <Head>
+        <title>About us</title>
+      </Head>
       <div className="w-full flex flex-col md:flex-row mb-5 gap-3 px-4 md:px-3">
         <div className="flex flex-col">
           <h4 className=" font-extrabold text-lg text-text flex items-center">

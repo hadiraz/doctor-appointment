@@ -4,6 +4,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironLoginOptions } from "@/lib/config/iron-config";
 import { useRouter } from "next/router";
 import { AppointmentCreateContext } from "@/context/user/LoginContext";
+import Head from "next/head"
 
 type NewUserType = {
   reservesList: UserLastReserveType[];
@@ -28,6 +29,9 @@ const Dashboard = ({ user }: { user: string }) => {
   };
   return (
     <section className="w-full max-w-7xl flex flex-col h-screen px-3 xl:px-0">
+      <Head>
+        <title>Dashboard</title>
+      </Head>
       <div className="flex w-full items-center justify-between mb-3">
         <p className="w-max font-bold text-2xl">Reservation list</p>
         <span
