@@ -84,7 +84,6 @@ const Dashboard = ({ user }: { user: string }) => {
     </section>
   );
 };
-
 export default Dashboard;
 
 export const getServerSideProps = withIronSessionSsr(
