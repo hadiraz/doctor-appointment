@@ -48,7 +48,6 @@ const Dashboard = ({ user }: { user: string }) => {
               <th className="p-2 min-w-max">name</th>
               <th className="p-2 min-w-max">reserved time</th>
               <th className="p-2 min-w-max">id number</th>
-              <th className="p-2 min-w-max">prosecute id</th>
             </tr>
           </thead>
           <tbody>
@@ -75,7 +74,6 @@ const Dashboard = ({ user }: { user: string }) => {
                         </span>
                       </td>
                       <td className="p-2 min-w-max">{value.idNumber}</td>
-                      <td className="p-2 min-w-max">1548</td>
                     </tr>
                   );
                 })
